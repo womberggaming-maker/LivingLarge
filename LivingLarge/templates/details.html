@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<title>{{ home.title }}</title>
+<style>
+
+    body {
+
+      font-family: Arial, sans-serif;
+
+      background: #f4f6f8;
+
+      margin: 0;
+
+      padding: 40px;
+
+    }
+
+    .property-layout {
+
+      max-width: 1400px;
+
+      margin: 0 auto;
+
+      display: grid;
+
+      grid-template-columns: 2fr 1fr 1fr;
+
+      gap: 32px;
+
+      align-items: start;
+
+    }
+
+    .property-main,
+
+    .property-specs,
+
+    .property-agent {
+
+      background: white;
+
+      border-radius: 20px;
+
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+      overflow: hidden;
+
+    }
+
+    .property-content,
+
+    .property-specs,
+
+    .property-agent {
+
+      padding: 24px;
+
+    }
+
+    .property-image-wrap {
+
+      position: relative;
+
+      width: 100%;
+
+      overflow: hidden;
+
+    }
+
+    .property-image {
+
+      width: 100%;
+
+      height: 440px;
+
+      object-fit: cover;
+
+      display: block;
+
+    }
+
+    .match-score {
+
+      position: absolute;
+
+      top: 18px;
+
+      left: 18px;
+
+      z-index: 3;
+
+      width: 88px;
+
+      height: 88px;
+
+      border-radius: 50%;
+
+      background: #2563eb;
+
+      color: white;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      text-align: center;
+
+      font-weight: 700;
+
+      font-size: 14px;
+
+      line-height: 1.1;
+
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+
+    }
+
+    .property-main h1 {
+
+      margin: 0 0 16px;
+
+      font-size: 38px;
+
+      color: #1d3557;
+
+    }
+
+    .property-specs h3,
+
+    .property-agent h3,
+
+    .description-box h3 {
+
+      margin-top: 0;
+
+      margin-bottom: 14px;
+
+      color: #1d3557;
+
+    }
+
+    .property-specs p,
+
+    .property-agent p,
+
+    .description-box p,
+
+    .description-box li {
+
+      font-size: 15px;
+
+      line-height: 1.6;
+
+      margin: 8px 0;
+
+    }
+
+    .analysis-box {
+
+      background: #f0f7ff;
+
+      border-left: 5px solid #2563eb;
+
+      padding: 18px;
+
+      border-radius: 12px;
+
+      margin: 18px 0;
+
+      font-size: 15px;
+
+    }
+
+    .match-tags {
+
+      margin-bottom: 18px;
+
+    }
+
+    .match-tag {
+
+      display: inline-block;
+
+      background: #e8f0ff;
+
+      color: #1d4ed8;
+
+      padding: 6px 12px;
+
+      border-radius: 999px;
+
+      font-size: 13px;
+
+      font-weight: 600;
+
+      margin: 4px 6px 0 0;
+
+    }
+
+    .match-breakdown {
+
+      background: #ffffff;
+
+      border-radius: 16px;
+
+      padding: 18px;
+
+      margin-top: 20px;
+
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+
+    }
+
+    .match-breakdown h3 {
+
+      margin: 0 0 14px 0;
+
+      font-size: 20px;
+
+      color: #1f3a8a;
+
+    }
+
+    .match-row {
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      padding: 10px 14px;
+
+      border-radius: 8px;
+
+      margin-bottom: 6px;
+
+    }
+
+    .match-row:last-child {
+
+      margin-bottom: 0;
+
+    }
+
+    .match-row.good {
+
+      background: #ecfdf5;
+
+    }
+
+    .match-row.bad {
+
+      background: #fef2f2;
+
+    }
+
+    .match-row.good span:last-child {
+
+      color: #16a34a;
+
+      font-weight: 700;
+
+      font-size: 18px;
+
+    }
+
+    .match-row.bad span:last-child {
+
+      color: #dc2626;
+
+      font-weight: 700;
+
+      font-size: 18px;
+
+    }
+
+    .description-box {
+
+      margin-top: 10px;
+
+      padding-top: 10px;
+
+      border-top: 1px solid #e5e7eb;
+
+    }
+
+    .property-agent {
+
+      position: sticky;
+
+      top: 30px;
+
+    }
+
+    .agent-card {
+
+      text-align: center;
+
+    }
+
+    .agent-avatar {
+
+      width: 90px;
+
+      height: 90px;
+
+      margin: 0 auto 14px;
+
+      border-radius: 50%;
+
+      background: #cbd5e1;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      font-size: 36px;
+
+    }
+
+    .agent-contact {
+
+      margin: 18px 0;
+
+      text-align: left;
+
+    }
+
+    .details-btn {
+
+      display: block;
+
+      text-align: center;
+
+      background: #c67a3d;
+
+      color: white;
+
+      text-decoration: none;
+
+      padding: 12px 18px;
+
+      border-radius: 12px;
+
+      font-weight: 700;
+
+      margin-top: 12px;
+
+    }
+
+    .details-btn.secondary {
+
+      background: #2563eb;
+
+    }
+
+    .back-wrap {
+
+      max-width: 1400px;
+
+      margin: 20px auto 0;
+
+    }
+
+    .back-btn {
+
+      display: inline-block;
+
+      padding: 10px 18px;
+
+      background: #2563eb;
+
+      color: white;
+
+      text-decoration: none;
+
+      border-radius: 10px;
+
+      font-weight: 600;
+
+    }
+
+    @media (max-width: 1100px) {
+
+      .property-layout {
+
+        grid-template-columns: 1fr;
+
+      }
+
+      .property-agent {
+
+        position: static;
+
+      }
+
+      .property-image {
+
+        height: 280px;
+
+      }
+
+    }
+</style>
+</head>
+<body>
+ 
+<div class="property-layout">
+<div class="property-main">
+
+<img src="{{ url_for('static', filename=home.image) }}" alt="Boligbillede" class="property-image">
+<div class="property-content">
+<h1>{{ home.title }}</h1>
+<div class="analysis-box">
+<div class="match-breakdown">
+<h3>Hvorfor matcher boligen?</h3>
+<div class="match-row {{ 'good' if home.city == user_profile.city else 'bad' }}">
+<span>Rigtig by</span>
+<span>{{ "✓" if home.city == user_profile.city else "✕" }}</span>
+</div>
+{% if user_profile and user_profile.budget is not none %}
+<div class="match-row {{ 'good' if home.price <= user_profile.budget else 'bad' }}">
+<span>Budget</span>
+<span>
+   {{ "Inden for budget" if home.price <= user_profile.budget else "Over budget" }}
+</span>
+</div>
+{% endif %}
+{% if user_profile and user_profile.min_size is not none %}
+<div class="match-row {{ 'good' if home.size >= user_profile.min_size else 'bad' }}">
+<span>Størrelse</span>
+<span>
+   {{ "Stor nok" if home.size >= user_profile.min_size else "For lille" }}
+</span>
+</div>
+{% endif %}
+
+    {% if user_profile.wants_garage %}
+<div class="match-row {{ 'good' if home.garage else 'bad' }}">
+<span>Garage</span>
+<span>{{ "✓" if home.garage else "✕" }}</span>
+</div>
+
+    {% endif %}
+
+    {% if user_profile.wants_garden %}
+<div class="match-row {{ 'good' if home.garden else 'bad' }}">
+<span>Have</span>
+<span>{{ "✓" if home.garden else "✕" }}</span>
+</div>
+
+    {% endif %}
+
+    {% if user_profile.wants_forest %}
+<div class="match-row {{ 'good' if home.forest_nearby else 'bad' }}">
+<span>Tæt på skov</span>
+<span>{{ "✓" if home.forest_nearby else "✕" }}</span>
+</div>
+
+    {% endif %}
+
+    {% if user_profile.wants_family %}
+<div class="match-row {{ 'good' if home.family_score >= 7 else 'bad' }}">
+<span>Familievenligt</span>
+<span>{{ "✓" if home.family_score >= 7 else "✕" }}</span>
+</div>
+
+    {% endif %}
+
+    {% if user_profile.wants_commute %}
+<div class="match-row {{ 'good' if home.commute_score >= 7 else 'bad' }}">
+<span>Kort pendling</span>
+<span>{{ "✓" if home.commute_score >= 7 else "✕" }}</span>
+</div>
+
+    {% endif %}
+
+    {% if user_profile.wants_investment %}
+<div class="match-row {{ 'good' if home.investment_score >= 7 else 'bad' }}">
+<span>God investering</span>
+<span>{{ "✓" if home.investment_score >= 7 else "✕" }}</span>
+</div>
+
+    {% endif %}
+</div>    
+<strong>AI analyse</strong><br>
+         {{ match_summary }}
+</div>
+       {% if match_reasons %}
+<div class="match-tags">
+         {% for reason in match_reasons %}
+<span class="match-tag">{{ reason }}</span>
+         {% endfor %}
+</div>
+       {% endif %}
+<div class="description-box">
+<h3>Beskrivelse</h3>
+<p>
+           {{ home.description if home.description else "Boligen passer godt til din livsstil og dine ønsker." }}
+</p>
+         {% if home.limitations %}
+<h3>Hvorfor matcher boligen ikke bedre?</h3>
+<ul>
+           {% for reason in home.limitations %}
+<li>{{ reason }}</li>
+           {% endfor %}
+</ul>
+         {% endif %}
+</div>
+</div>
+</div>
+<div class="property-specs">
+<h3>Specifikationer</h3>
+<p><strong>By:</strong> {{ home.city }}</p>
+<p><strong>Pris:</strong> {{ home.price }} kr</p>
+<p><strong>Størrelse:</strong> {{ home.size }} m²</p>
+<p><strong>Garage:</strong> {{ "Ja" if home.garage else "Nej" }}</p>
+<p><strong>Have:</strong> {{ "Ja" if home.garden else "Nej" }}</p>
+<p><strong>Tæt på skov:</strong> {{ "Ja" if home.forest_nearby else "Nej" }}</p>
+<p><strong>Match:</strong> {{ match_score }}%</p>
+</div>
+<div class="property-agent">
+<h3>Ejendomsmægler</h3>
+<div class="agent-card">
+<div class="agent-avatar">👤</div>
+<p><strong>Navn Navnesen</strong></p>
+<p>Partner & Ejendomsmægler</p>
+<p>Specialist i boligsalg i {{ home.city }} og omegn</p>
+<div class="agent-contact">
+<p><strong>Kontaktinfo</strong></p>
+<p>Tlf: +45 12 34 56 78</p>
+<p>Email: nn@home.dk</p>
+</div>
+<a href="#" class="details-btn">BESTIL FREMVISNING</a>
+<a href="#" class="details-btn secondary">HENT SALGSOPSTILLING</a>
+</div>
+</div>
+</div>
+<div class="back-wrap">
+<a href="/" class="back-btn">← Tilbage</a>
+</div>
+</body>
+</html>

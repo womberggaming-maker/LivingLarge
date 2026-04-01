@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Om os | Living Large</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+   {% include 'partials/navbar.html' %}
+<main class="about-page">
+    <div class="about-wrapper">    
+        <section class="about-hero">
+<div class="about-hero-inner">
+<p class="about-eyebrow">Living Large</p>
+<h1>Om os</h1>
+<p class="about-lead">
+                   Vi bygger en moderne boligplatform, hvor AI hjælper brugeren med at finde
+                   boliger, der matcher livsstil, behov og drømme — ikke kun pris og postnummer.
+</p>
+</div>
+</section>
+<section class="about-section">
+<div class="about-container">
+<h2>Vores mission</h2>
+<p>
+                   Living Large skal gøre boligsøgning mere personlig, mere intelligent og mere
+                   inspirerende. Platformen skal føles som en digital boligrådgiver fremfor en klassisk boligside.
+</p>
+</div> 
+</section>
+<section class="about-section about-section-alt">
+<div class="about-container">
+<h2>Hvad siden skal kunne</h2>
+<div class="about-grid">
+<article class="about-card">
+<h3>AI boligmatch</h3>
+<p>Brugeren beskriver sin drømmebolig, og systemet finder de bedste matches.</p>
+</article>
+<article class="about-card">
+<h3>Lifestyle-fokus</h3>
+<p>Vi matcher på hverdag, ønsker, familie, natur, pendling og boligtype.</p>
+</article>
+<article class="about-card">
+<h3>Premium oplevelse</h3>
+<p>Designet skal føles moderne, roligt og visuelt stærkt fra første klik.</p>
+</article>
+</div>
+</div>
+</section>
+<section class="about-section">
+<div class="about-container">
+<h2>Kommer senere</h2>
+<p>
+                   Her kan I senere tilføje team, vision, kontakt, samarbejdspartnere, roadmap
+                   eller hvorfor Living Large blev skabt.
+</p>
+</div>
+</section>
+</main>
+   {% include 'partials/footer.html' %}
+</body>
+</html>
