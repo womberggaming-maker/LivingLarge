@@ -402,6 +402,9 @@ def get_matches(user_profile: dict, homes_list: list) -> list:
 def home():
    results = []
    user = session.get("user_profile", {})
+   explanation = ""
+   no-results_message = ""
+   used_fallback = False
    if request.method == "POST":
        dream_text = request.form.get("dream_home")
        if dream_text:
