@@ -403,7 +403,7 @@ def home():
    results = []
    user = session.get("user_profile", {})
    explanation = ""
-   no-results_message = ""
+   no - results_message = ""
    used_fallback = False
    if request.method == "POST":
        dream_text = request.form.get("dream_home")
