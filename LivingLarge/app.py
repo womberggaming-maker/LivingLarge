@@ -460,7 +460,7 @@ def about():
 
 @app.route("/reset")
 def reset():
-   session.pop("user_profile", None)
+   session.clear()
    return redirect("/")
 
 if __name__ == "__main__":
