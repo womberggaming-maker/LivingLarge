@@ -461,7 +461,7 @@ def about():
 @app.route("/reset")
 def reset():
    session.clear()
-   return redirect(url_for("home"))
+   return redirect(url_for("home") + "#top")
 
 if __name__ == "__main__":
    app.run(host="0.0.0.0", port=10000)
