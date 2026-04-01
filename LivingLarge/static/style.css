@@ -437,7 +437,7 @@
 
    .results-section{
         max-width: 1200px;
-        margin: 40px auto 80px auto;
+        margin: 80px auto;
         padding: 0 20px;
     }
     .results-info strong {
@@ -462,7 +462,7 @@
     }
     .home-card{
         background:white;
-        border-radius:12px;
+        border-radius:20px;
         overflow:hidden;
         box-shadow:0 10px 25px rgba(0,0,0,0.1);
     }
