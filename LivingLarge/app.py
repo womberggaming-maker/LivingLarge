@@ -5,8 +5,25 @@ import random
 app = Flask(__name__)
 app.secret_key = "living_large_secret_key"
 
+
+def default_profile():
+   return {
+       "city": "",
+       "budget": None,
+       "min_size": None,
+       "rooms": None,
+       "wants_shopping": False,
+       "wants_garage": False,
+       "wants_garden": False,
+       "wants_forest": False,
+       "wants_commute": False,
+       "wants_family": False,
+       "wants_investment": False,
+   }
+
 def parse_dream_home(text):
    text = text.lower()
+   profile = default_profile()
    profile = {
        "city": "",
        "budget": None,
@@ -18,7 +35,7 @@ def parse_dream_home(text):
        "wants_forest": False,
        "wants_commute": False,
        "wants_family": False,
-       "wants_investment": False
+       "wants_investment": False,
    }
    # By
    if "vejle" in text:
@@ -454,37 +471,46 @@ def get_matches(user_profile: dict, homes_list: list) -> list:
 @app.route("/", methods=["GET", "POST"])
 def home():
    results = []
-   user = session.get("user_profile", {})
-   dream_text = session.get("dream_text", "")
    explanation = ""
    no_results_message = ""
    used_fallback = False
+   user = session.get("user_profile", default_profile())
+   dream_text = session.get("last_dream_home", "")
    if request.method == "POST":
-       dream_text = request.form.get("dream_home", "")
+       dream_text = request.form.get("dream_home", "").strip()
        if dream_text:
            user = parse_dream_home(dream_text)
        else:
-           user = {
-               "city": request.form.get("city", ""),
-               "budget": int(request.form.get("budget")) if request.form.get("budget") else None,
-               "min_size": int(request.form.get("min_size")) if request.form.get("min_size") else None,
-               "wants_garage": "wants_garage" in request.form,
-               "wants_garden": "wants_garden" in request.form,
-               "wants_forest": "wants_forest" in request.form,
-               "wants_commute": "wants_commute" in request.form,
-               "wants_family": "wants_family" in request.form,
-               "wants_investment": "wants_investment" in request.form
-           }
+           user = default_profile()
+           user["city"] = request.form.get("city", "").strip()
+           user["budget"] = int(request.form.get("budget")) if request.form.get("budget") else None
+           user["min_size"] = int(request.form.get("min_size")) if request.form.get("min_size") else None
+           user["rooms"] = int(request.form.get("rooms")) if request.form.get("rooms") else None
+           user["wants_shopping"] = "wants_shopping" in request.form
+           user["wants_garage"] = "wants_garage" in request.form
+           user["wants_garden"] = "wants_garden" in request.form
+           user["wants_forest"] = "wants_forest" in request.form
+           user["wants_commute"] = "wants_commute" in request.form
+           user["wants_family"] = "wants_family" in request.form
+           user["wants_investment"] = "wants_investment" in request.form
        session["user_profile"] = user
-       session["dream_text"] = dream_text
-       return redirect (url_for("home"))
-   elif user:
+       session["last_dream_home"] = dream_text
+       return redirect(url_for("home", _anchor="results-section"))
+   if user:
        results, used_fallback = get_matches(user, homes)
-       no_results_message = ""
        if user and not results:
-              no_results_message = "Vi fandt desværre ingen boliger, der matcher præcist. Prøv at hæv dit budget lidt, vælg et andet område, eller juster på dine krav."
+           no_results_message = "Vi fandt desværre ingen boliger, der matcher præcist. Prøv at hæv dit budget lidt, vælg et andet område, eller juster på dine krav."
        explanation = get_top_matches_explanation(user, results)
-   return render_template("index.html", results=results, user=user,homes=homes, explanation=explanation, no_results_message=no_results_message, used_fallback=used_fallback, scroll_to_results=True, dream_text=dream_text)
+   return render_template(
+       "index.html",
+       results=results,
+       user=user,
+       homes=homes,
+       explanation=explanation,
+       no_results_message=no_results_message,
+       used_fallback=used_fallback,
+       dream_text=dream_text,
+   )
 
 @app.route("/bolig/<int:home_id>")
 def bolig_detaljer(home_id):
