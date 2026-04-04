@@ -912,8 +912,8 @@ transition:0.2s;
 }
 .showcase-arrow:hover {
    background: #3f6a99;
-   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-   transform: translateY(-50%);
+   box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+   transform: translateY(-50%) scale(1.05);
 }
 
 
@@ -1014,7 +1014,7 @@ transition:0.2s;
    cursor: pointer;
    z-index: 20;
    padding: 0;
-   transition: background 0.2s ease, box-shadow 0.2s ease;
+   transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 .showcase-arrow:hover {
    background: #3f6a99;
