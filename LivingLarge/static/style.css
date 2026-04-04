@@ -1600,6 +1600,11 @@ color:#2b4b70;
    font-weight: 700;
 }
 
+.input-highlight {
+   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.18);
+   transition: box-shadow 0.3s ease;
+}
+
 
 
 
