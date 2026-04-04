@@ -453,6 +453,14 @@ def bolig_detaljer(home_id):
        match_summary=match_summary,
        user_profile=user_profile
    )    
+@app.route("/profile")
+def profile():
+   user_profile = session.get("user_profile")
+   return render_template("profile.html", user_profile=user_profile)
+
+@app.route("/login")
+def login():
+   return render_template("login.html")
 
 @app.route("/about")
 def about():
