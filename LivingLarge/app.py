@@ -35,6 +35,10 @@ def parse_dream_home(text):
        profile["city"] = "København"
    elif "esbjerg" in text:
        profile["city"] = "Esbjerg"
+   elif "kolding" in text:
+       profile["city"] = "Kolding"
+   elif "aalborg" in text:
+       profile["city"] = "Aalborg"
    elif "blåvand" in text:
        profile["city"] = "Blåvand"
    elif "skagen" in text:
@@ -72,7 +76,7 @@ def calculate_match(user_profile: dict, home: dict) -> int:
        if home["city"].lower() == user_profile["city"].lower():
            score += 20
    if user_profile["budget"] is not None:
-       max_score += 25
+       max_score -= 25
        if home["price"] <= user_profile["budget"]:
            score += 25
        elif home["price"] <= user_profile["budget"] * 1.1:
@@ -402,11 +406,12 @@ def get_matches(user_profile: dict, homes_list: list) -> list:
 def home():
    results = []
    user = session.get("user_profile", {})
+   dream_text = session.get("dream_text", "")
    explanation = ""
    no_results_message = ""
    used_fallback = False
    if request.method == "POST":
-       dream_text = request.form.get("dream_home")
+       dream_text = request.form.get("dream_home", "")
        if dream_text:
            user = parse_dream_home(dream_text)
        else:
@@ -422,6 +427,7 @@ def home():
                "wants_investment": "wants_investment" in request.form
            }
        session["user_profile"] = user
+       session["dream_text"] = dream_text
        return redirect (url_for("home"))
    elif user:
        results, used_fallback = get_matches(user, homes)
@@ -429,7 +435,7 @@ def home():
        if user and not results:
               no_results_message = "Vi fandt desværre ingen boliger, der matcher præcist. Prøv at hæv dit budget lidt, vælg et andet område, eller juster på dine krav."
        explanation = get_top_matches_explanation(user, results)
-   return render_template("index.html", results=results, user=user,homes=homes, explanation=explanation, no_results_message=no_results_message, used_fallback=used_fallback, scroll_to_results=True)
+   return render_template("index.html", results=results, user=user,homes=homes, explanation=explanation, no_results_message=no_results_message, used_fallback=used_fallback, scroll_to_results=True, dream_text=dream_text)
 
 @app.route("/bolig/<int:home_id>")
 def bolig_detaljer(home_id):
