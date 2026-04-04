@@ -1262,8 +1262,8 @@ color:#2b4b70;
         align-items: stretch;
         }
         .showcase-card {
-        flex: 0 0 333px;
-        max-width: 333px;
+        flex: 0 0 320px;
+        max-width: 320px;
         }
         .showcase-arrow {
         position: absolute;
