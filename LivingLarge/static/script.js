@@ -119,30 +119,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 document.addEventListener("DOMContentLoaded", function () {
    const btn = document.getElementById("scroll-to-search");
+   const section = document.getElementById("search-section");
    const input = document.getElementById("dream-home-input");
-   if (btn && input) {
-       btn.addEventListener("click", function () {
+   if (btn && section && input) {
+       btn.addEventListener("click", function (e) {
+           e.preventDefault();
+           section.scrollIntoView({
+               behavior: "smooth",
+               block: "center"
+           });
            setTimeout(() => {
                input.focus();
-           }, 400);
+               input.click();
+           }, 700);
        });
    }
-});
-document.addEventListener("DOMContentLoaded", () => {
- const scrollBtn = document.getElementById("scroll-to-search");
- const searchSection = document.getElementById("search-section");
- if (!scrollBtn || !searchSection) {
-   console.log("scroll hook missing");
-   return;
- }
- scrollBtn.addEventListener("click", (e) => {
-   e.preventDefault();
-   const targetY = searchSection.offsetTop - 40;
-   window.scrollTo({
-     top: targetY,
-     behavior: "smooth"
-   });
- });
 });
 document.addEventListener("DOMContentLoaded", function () {
  const form = document.querySelector('.ai-search-card form');
