@@ -456,8 +456,13 @@
         font-size: 32px;
         font-weight: 700;
         color: #1f2f4a;
-        margin-bottom: 32px;
+        margin: 0 0 32px 0;
         letter-spacing: -0.5px;
+    }
+    .showcase-wrapper {
+        position: relative;
+        max-width: 1000px;
+        margin: 0 auto;
     }
     .results-info strong {
         max-width: 950px;

@@ -7,28 +7,23 @@
 <div class="showcase-grid">
                    {% for home in results[:3] %}
 <div class="showcase-card {% if loop.index == 2 %}featured{% else %}side{% endif %}">
-<!-- IMAGE -->
 <div class="showcase-image-wrap">
 <img src="{{ url_for('static', filename=home.image) }}" alt="Bolig">
 <div class="match-badge">
                                {{ home.match_score }}%<br>MATCH
 </div>
 </div>
-<!-- CONTENT -->
 <div class="showcase-body">
 <h3>{{ home.title }}</h3>
-<!-- AI INSIGHT -->
 <div class="ai-insight">
                                {{ home.match_summary }}
 </div>
-<!-- INFO -->
 <div class="home-info">
                                {{ home.size }} m² |
                                {{ home.rooms if home.rooms else "?" }} værelser |
                                Energimærke: {{ home.energy if home.energy else "?" }} |
                                {{ home.price }} kr
 </div>
-<!-- BUTTON -->
 <a href="/bolig/{{ home.id }}" class="details-button">
                                SE DETALJER
 </a>
