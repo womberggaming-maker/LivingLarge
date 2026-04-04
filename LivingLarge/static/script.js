@@ -139,12 +139,17 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
    const btn = document.getElementById("scroll-to-search");
    const section = document.getElementById("search-section");
-   if (btn && section) {
+   const input = document.getElementById("dream-home-input");
+   if (btn && section && input) {
        btn.addEventListener("click", function () {
            section.scrollIntoView({
                behavior: "smooth",
                block: "center"
            });
+           setTimeout(() => {
+               input.focus();
+               input.select();
+           }, 900);
        });
    }
 });
