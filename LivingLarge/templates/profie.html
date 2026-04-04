@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Min profil - Living Large</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+   {% include 'partials/navbar.html' %}
+<main class="container">
+<section class="profile-page">
+<h1>Min profil</h1>
+           {% if user_profile %}
+<div class="profile-card">
+<p><strong>By:</strong> {{ user_profile.city or "Ikke valgt" }}</p>
+<p><strong>Budget:</strong>
+                       {% if user_profile.budget %}
+                           {{ user_profile.budget }} kr
+                       {% else %}
+                           Ikke valgt
+                       {% endif %}
+</p>
+<p><strong>Minimum størrelse:</strong>
+                       {% if user_profile.min_size %}
+                           {{ user_profile.min_size }} m²
+                       {% else %}
+                           Ikke valgt
+                       {% endif %}
+</p>
+<h3>Ønsker</h3>
+<ul>
+                       {% if user_profile.wants_garage %}<li>Garage</li>{% endif %}
+                       {% if user_profile.wants_garden %}<li>Have</li>{% endif %}
+                       {% if user_profile.wants_forest %}<li>Tæt på skov</li>{% endif %}
+                       {% if user_profile.wants_commute %}<li>Kort pendling</li>{% endif %}
+                       {% if user_profile.wants_family %}<li>Familievenligt område</li>{% endif %}
+                       {% if user_profile.wants_investment %}<li>God investering</li>{% endif %}
+</ul>
+<a class="primary-btn" href="{{ url_for('reset') }}">Nulstil profil</a>
+</div>
+           {% else %}
+<div class="profile-card">
+<p>Du har ikke oprettet en profil endnu.</p>
+<a class="primary-btn" href="{{ url_for('home') }}">Gå til forsiden</a>
+</div>
+           {% endif %}
+</section>
+</main>
+</body>
+</html>

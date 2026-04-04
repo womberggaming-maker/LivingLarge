@@ -1,13 +1,11 @@
 <header class="navbar" id="top">
 <div class="nav-inner">
 <div class="logo">Living Large</div>
-<nav class="nav-links">
-<a href="{{ url_for('reset') }}#top">Hjem</a>
-<a href="/profile">Min profil</a>
-<a href="/about">Om os</a>
-</nav>
-<nav href="/login" class="login-btn">
-Log Ind
-</a>
+<div class="nav-links">
+<a href="{{ url_for('home') }}#top">Hjem</a>
+<a href="{{ url_for('profile') }}">Min profil</a>
+<a href="{{ url_for('about') }}">Om os</a>
+<a href="{{ url_for('login') }}" class="login-btn">Log ind</a>
+</div>
 </div>
 </header>
