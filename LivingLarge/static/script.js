@@ -122,34 +122,13 @@ document.addEventListener("DOMContentLoaded", function () {
    const section = document.getElementById("search-section");
    const input = document.getElementById("dream-home-input");
    if (btn && section && input) {
-       btn.addEventListener("click", function (e) {
-           e.preventDefault();
-           section.scrollIntoView({
-               behavior: "smooth",
-               block: "center"
-           });
-           setTimeout(() => {
-               input.removeAttribute("readonly");
-               input.focus({ preventScroll: true });
-               input.select();
-           }, 900);
-       });
-   }
-});
-document.addEventListener("DOMContentLoaded", function () {
-   const btn = document.getElementById("scroll-to-search");
-   const section = document.getElementById("search-section");
-   const input = document.getElementById("dream-home-input");
-   if (btn && section && input) {
        btn.addEventListener("click", function () {
+           input.focus({ preventScroll: true });
+           input.select();
            section.scrollIntoView({
                behavior: "smooth",
                block: "center"
            });
-           setTimeout(() => {
-               input.focus();
-               input.select();
-           }, 900);
        });
    }
 });
