@@ -11,6 +11,7 @@ def parse_dream_home(text):
        "city": "",
        "budget": None,
        "min_size": None,
+       "wants_shopping": False,
        "wants_garage": False,
        "wants_garden": False,
        "wants_forest": False,
@@ -66,17 +67,21 @@ def parse_dream_home(text):
        profile["wants_family"] = True
    if "investering" in text:
        profile["wants_investment"] = True
+   if "indkøb" in text or "butik" in text or "supermarked" in text:
+       profile["wants_shopping"] = True
    return profile
 
 def calculate_match(user_profile: dict, home: dict) -> int:
    score = 0
    max_score = 0
    if user_profile["city"]:
-       max_score += 20
+       max_score += 35
        if home["city"].lower() == user_profile["city"].lower():
-           score += 20
+           score += 35
+       else:
+           score -=25
    if user_profile["budget"] is not None:
-       max_score -= 25
+       max_score += 25
        if home["price"] <= user_profile["budget"]:
            score += 25
        elif home["price"] <= user_profile["budget"] * 1.1:
@@ -113,6 +118,10 @@ def calculate_match(user_profile: dict, home: dict) -> int:
        max_score += 10
        if home["investment_score"] >= 7:
            score += 10
+   if user_profile["wants_shopping"]:
+           max_score += 10
+   if home.get("near_shopping"):
+           score += 10        
    if max_score == 0:
        return 0
    raw_score = score / max_score
@@ -369,6 +378,10 @@ def get_matches(user_profile: dict, homes_list: list) -> list:
                "✓ God investering"
                if home["investment_score"] >= 7
                else "✕ Svag investering"
+           )
+       if user_profile.get("wants_shopping"):
+           match_details.append(
+                "✓ Tæt på indkøb" if home.get("near_shopping") else "✗ Ikke tæt på indkøb"
            )
        home_with_score["match_reasons"] = get_match_reasons(user_profile, home)
        home_with_score["match_summary"] = get_match_summary(user_profile, home)
