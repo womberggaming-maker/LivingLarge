@@ -1,41 +1,43 @@
 <div id="results-section" class="results-section">
-<h2>Match med dine ønsker</h2>
+<div class="results-container">
+<h2 class="results-title">Match med dine ønsker</h2>
 <div class="showcase-wrapper">
 <button class="showcase-arrow left-arrow" type="button">&#10094;</button>
 <div class="showcase-board">
 <div class="showcase-grid">
-       {% for home in results[:3] %}
+                   {% for home in results[:3] %}
 <div class="showcase-card {% if loop.index == 2 %}featured{% else %}side{% endif %}">
 <!-- IMAGE -->
 <div class="showcase-image-wrap">
 <img src="{{ url_for('static', filename=home.image) }}" alt="Bolig">
 <div class="match-badge">
-             {{ home.match_score }}%<br>MATCH
+                               {{ home.match_score }}%<br>MATCH
 </div>
 </div>
 <!-- CONTENT -->
 <div class="showcase-body">
 <h3>{{ home.title }}</h3>
-<!-- AI INSIGHT (ENESTE TEKST) -->
+<!-- AI INSIGHT -->
 <div class="ai-insight">
-{{ home.match_summary }}
+                               {{ home.match_summary }}
 </div>
 <!-- INFO -->
 <div class="home-info">
-             {{ home.size }} m² |
-             {{ home.rooms if home.rooms else "?" }} værelser |
-             Energimærke: {{ home.energy if home.energy else "?" }} |
-             {{ home.price }} kr
+                               {{ home.size }} m² |
+                               {{ home.rooms if home.rooms else "?" }} værelser |
+                               Energimærke: {{ home.energy if home.energy else "?" }} |
+                               {{ home.price }} kr
 </div>
 <!-- BUTTON -->
 <a href="/bolig/{{ home.id }}" class="details-button">
-             SE DETALJER
+                               SE DETALJER
 </a>
 </div>
 </div>
-       {% endfor %}
+                   {% endfor %}
 </div>
 </div>
 <button class="showcase-arrow right-arrow" type="button">&#10095;</button>
+</div>
 </div>
 </div>
