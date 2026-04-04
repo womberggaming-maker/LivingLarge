@@ -117,6 +117,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1200);
     }
 });
+document.addEventListener("DOMContentLoaded", function () {
+   const btn = document.getElementById("scroll-to-search");
+   const input = document.getElementById("dream-home-input");
+   if (btn && input) {
+       btn.addEventListener("click", function () {
+           setTimeout(() => {
+               input.focus();
+           }, 400);
+       });
+   }
+});
 document.addEventListener("DOMContentLoaded", () => {
  const scrollBtn = document.getElementById("scroll-to-search");
  const searchSection = document.getElementById("search-section");
