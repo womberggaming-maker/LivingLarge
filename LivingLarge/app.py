@@ -118,7 +118,7 @@ def calculate_match(user_profile: dict, home: dict) -> int:
        max_score += 10
        if home["investment_score"] >= 7:
            score += 10
-   if user_profile.get["wants_shopping", False]:
+   if user_profile.get("wants_shopping", False):
        max_score += 10
        if home.get("near_shopping"):
            score += 10        
