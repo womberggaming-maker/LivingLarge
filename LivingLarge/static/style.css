@@ -537,12 +537,6 @@
         margin: 0 0 40px 0;
         letter-spacing: -0.5px;
     }
-    .showcase-wrapper {
-        position: relative;
-        max-width: 1200px;
-        margin: 0 auto;
-        overflow: hidden;
-    }
     .details-button{
         display:inline-block;
         padding:14px 24px;
@@ -713,11 +707,11 @@ box-shadow:0 10px 20px rgba(200,116,58,0.20);
 
 .showcase-grid{
 
-display:flex;
+display:grid;
 
 grid-template-columns:0.78fr 1.18fr 0.78fr;
 
-gap:24px;
+gap:18px;
 
 align-items:center;
 
@@ -728,12 +722,6 @@ align-items:center;
 background:white;
 
 border-radius:26px;
-
-min-width: 340px;
-
-max-width: 340px;
-
-flex: 0 0 auto;
 
 overflow:hidden;
 
