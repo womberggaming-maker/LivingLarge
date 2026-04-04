@@ -121,20 +121,16 @@ document.addEventListener("DOMContentLoaded", function () {
    const btn = document.getElementById("scroll-to-search");
    const section = document.getElementById("search-section");
    const input = document.getElementById("dream-home-input");
-   if (btn && section && input) {
-       btn.addEventListener("click", function () {
-           input.focus({ preventScroll: true });
-           input.select();
-           input.classList.add("input-highlight");
-           section.scrollIntoView({
-               behavior: "smooth",
-               block: "center"
-           });
-           setTimeout(() => {
-               input.classList.remove("input-highlight");
-           }, 1200);
+   if (!btn || !section || !input) return;
+   btn.addEventListener("click", function () {
+       section.scrollIntoView({
+           behavior: "smooth",
+           block: "center"
        });
-   }
+       setTimeout(() => {
+           input.focus();
+       }, 600);
+   });
 });
 document.addEventListener("DOMContentLoaded", function () {
  const form = document.querySelector('.ai-search-card form');
