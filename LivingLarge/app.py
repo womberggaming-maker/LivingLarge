@@ -118,7 +118,7 @@ def calculate_match(user_profile: dict, home: dict) -> int:
        max_score += 10
        if home["investment_score"] >= 7:
            score += 10
-   if user_profile["wants_shopping"]:
+   if user_profile["wants_shopping", False]:
        max_score += 10
        if home.get("near_shopping"):
            score += 10        
@@ -159,7 +159,7 @@ def get_match_reasons(user_profile: dict, home: dict) -> list:
        reasons.append("Familievenligt")
    if user_profile["wants_investment"] and home["investment_score"] >= 7:
        reasons.append("God investering")
-   if user_profile["wants_shopping"] and home.get("near_shopping"):
+   if user_profile["wants_shopping", False] and home.get("near_shopping"):
        reasons.append("Tæt på indkøb")
    return reasons
 
@@ -187,7 +187,7 @@ def get_match_summary(user_profile, home):
        positives.append("ligger tæt på natur")
    if user_profile["wants_commute"] and home["commute_score"] >= 7:
        positives.append("har kort pendling")
-   if user_profile["wants_shopping"] and home.get("near_shopping"):
+   if user_profile["wants_shopping", False] and home.get("near_shopping"):
        positives.append("ligger tæt på indkøb")
    # GENERÉR TEKST
    if positives:
@@ -234,7 +234,7 @@ def get_match_limitations(user_profile, home):
        reasons.append("Boligen har ikke have")
    if user_profile["wants_forest"] and not home["forest_nearby"]:
        reasons.append("Boligen ligger ikke tæt på skov")
-   if user_profile["wants_shopping"] and not home.get("near_shopping"):
+   if user_profile["wants_shopping", False] and not home.get("near_shopping"):
        reasons.append("Boligen ligger ikke tæt på indkøb")
    return reasons
 
@@ -277,7 +277,7 @@ def get_match_count(user_profile: dict, home: dict):
        total += 1
        if home["investment_score"] >= 7:
            matched += 1
-   if user_profile["wants_shopping"]:
+   if user_profile["wants_shopping", False]:
        total += 1
        if home.get("near_shopping"):
            matched += 1
@@ -319,7 +319,7 @@ def get_top_matches_explanation(user_profile, matches):
            reasons.append("garage")
        if user_profile["wants_forest"] and home.get("forest_nearby"):
            reasons.append("tæt på natur")
-       if user_profile["wants_shopping"] and home.get("near_shopping"):
+       if user_profile["wants_shopping", False] and home.get("near_shopping"):
            reasons.append("tæt på indkøb")
    # Fjern duplicates
    unique_reasons = []
