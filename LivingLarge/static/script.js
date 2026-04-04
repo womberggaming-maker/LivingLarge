@@ -107,13 +107,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
     const loader = document.getElementById("ai-loading");
-    const results = document.querySelectorALL(".showcase-wrapper");
+    const results = document.querySelectorAll(".showcase-wrapper");
 
     if (loader && results) {
-        results.style.display = "none";
+        results.forEach(result => {
+            result.style.display = "none";
+        });
         setTimeout(() => {
             loader.style.display = "none";
-            results.style.display = "block";
+            results.forEach(result => {
+                result.style.display = "block";
+            });
         }, 1200);
     }
 });
