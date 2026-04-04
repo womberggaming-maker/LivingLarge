@@ -103,9 +103,9 @@ def calculate_match(user_profile: dict, home: dict) -> int:
            score += 8
    if user_profile.get("rooms") is not None:
        max_score += 15
-   if home.get("rooms", 0) >= user_profile["rooms"]:
+       if home.get("rooms", 0) >= user_profile["rooms"]:
            score += 15
-   elif home.get("rooms", 0) == user_profile["rooms"] - 1:
+       elif home.get("rooms", 0) == user_profile["rooms"] - 1:
            score += 8        
    if user_profile["wants_garage"]:
        max_score += 10
