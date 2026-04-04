@@ -11,6 +11,7 @@ def parse_dream_home(text):
        "city": "",
        "budget": None,
        "min_size": None,
+       "rooms": None,
        "wants_shopping": False,
        "wants_garage": False,
        "wants_garden": False,
@@ -55,6 +56,12 @@ def parse_dream_home(text):
    if "stor" in text or "150" in text:
        profile["min_size"] = 150
    # Features
+   if "3 værelser" in text or "3 vaerelser" in text:
+       profile["rooms"] = 3
+   elif "4 værelser" in text or "4 vaerelser" in text:
+       profile["rooms"] = 4
+   elif "5 værelser" in text or "5 vaerelser" in text:
+       profile["rooms"] = 5
    if "garage" in text:
        profile["wants_garage"] = True
    if "have" in text:
@@ -94,6 +101,12 @@ def calculate_match(user_profile: dict, home: dict) -> int:
            score += 15
        elif home["size"] >= user_profile["min_size"] * 0.9:
            score += 8
+   if user_profile.get("rooms") is not None:
+       max_score += 15
+   if home.get("rooms", 0) >= user_profile["rooms"]:
+           score += 15
+   elif home.get("rooms", 0) == user_profile["rooms"] - 1:
+           score += 8        
    if user_profile["wants_garage"]:
        max_score += 10
        if home["garage"]:
@@ -147,6 +160,9 @@ def get_match_reasons(user_profile: dict, home: dict) -> list:
            reasons.append("Stor nok")
        elif home["size"] >= user_profile["min_size"] * 0.9:
            reasons.append("Næsten stor nok")
+   if user_profile.get("rooms") is not None:
+       if home.get("rooms", 0) >= user_profile["rooms"]:
+           reasons.append("Nok værelser")        
    if user_profile["wants_garage"] and home["garage"]:
        reasons.append("Garage")
    if user_profile["wants_garden"] and home["garden"]:
@@ -179,6 +195,9 @@ def get_match_summary(user_profile, home):
            positives.append("har den ønskede størrelse")
        else:
            negatives.append("er mindre end ønsket")
+   if user_profile.get("rooms") is not None:
+       if home.get("rooms", 0) >= user_profile["rooms"]:
+           positives.append("har nok værelser")        
    if user_profile["wants_garden"] and home["garden"]:
        positives.append("har have")
    if user_profile["wants_garage"] and home["garage"]:
