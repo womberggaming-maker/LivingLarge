@@ -1260,10 +1260,11 @@ color:#2b4b70;
         display: flex;
         gap: 24px;
         align-items: stretch;
+        justify-content: center;
         }
         .showcase-card {
-        flex: 0 0 320px;
-        max-width: 320px;
+        flex: 0 0 315px;
+        max-width: 315px;
         }
         .showcase-arrow {
         position: absolute;
@@ -1287,10 +1288,10 @@ color:#2b4b70;
         z-index: 5;
         }
         .left-arrow {
-        left: -24px;
+        left: -32px;
         }
         .right-arrow {
-        right: -24px;
+        right: -32px;
         }
 
 
