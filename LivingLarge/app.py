@@ -396,7 +396,7 @@ def get_matches(user_profile: dict, homes_list: list) -> list:
                if home["investment_score"] >= 7
                else "✕ Svag investering"
            )
-       if user_profile.get("wants_shopping"):
+       if user_profile.get("wants_shopping", False):
            match_details.append(
                 "✓ Tæt på indkøb" if home.get("near_shopping") else "✗ Ikke tæt på indkøb"
            )
