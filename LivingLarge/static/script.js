@@ -107,13 +107,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
     const loader = document.getElementById("ai-loading");
-    const results = document.querySelectorAll(".showcase-wrapper");
+    const results = document.querySelector(".showcase-wrapper");
 
-    if (loader && results){
+    if (loader && results) {
         results.style.display = "none";
         setTimeout(() => {
-        loader.style.display = "none";
-        results.style.display = "block";
+            loader.style.display = "none";
+            results.style.display = "block";
         }, 1200);
     }
 });
@@ -121,6 +121,9 @@ document.addEventListener("DOMContentLoaded", function () {
    const btn = document.getElementById("scroll-to-search");
    const section = document.getElementById("search-section");
    const input = document.getElementById("dream-home-input");
+   console.log("btn:", btn);
+   console.log("section:", section);
+   console.log("input:", input);
    if (btn && section && input) {
        btn.addEventListener("click", function (e) {
            e.preventDefault();
@@ -130,7 +133,6 @@ document.addEventListener("DOMContentLoaded", function () {
            });
            setTimeout(() => {
                input.focus();
-               input.click();
            }, 700);
        });
    }
