@@ -151,3 +151,15 @@ document.addEventListener("DOMContentLoaded", function () {
    resultsSection.scrollIntoView({ behavior: "smooth" });
  }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const homeLink = document.getElementById("home-link");
+    if (homeLink) {
+        homeLink.addEventListener("click", (e) => {
+            if (window.location.pathname === "/") {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+        });
+    }
+});
