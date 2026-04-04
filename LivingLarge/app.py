@@ -98,43 +98,43 @@ def calculate_match(user_profile: dict, home: dict) -> int:
    if user_profile["min_size"] is not None:
        max_score += 15
        if home["size"] >= user_profile["min_size"]:
-           score += 15
+           score += 12
        elif home["size"] >= user_profile["min_size"] * 0.9:
-           score += 8
+           score += 7
    if user_profile.get("rooms") is not None:
        max_score += 15
        if home.get("rooms", 0) >= user_profile["rooms"]:
-           score += 15
+           score += 12
        elif home.get("rooms", 0) == user_profile["rooms"] - 1:
-           score += 8        
+           score += 7        
    if user_profile["wants_garage"]:
-       max_score += 10
+       max_score += 8
        if home["garage"]:
-           score += 10
+           score += 8
    if user_profile["wants_garden"]:
-       max_score += 10
+       max_score += 8
        if home["garden"]:
-           score += 10
+           score += 8
    if user_profile["wants_forest"]:
-       max_score += 10
+       max_score += 8
        if home["forest_nearby"]:
-           score += 10
+           score += 8
    if user_profile["wants_commute"]:
-       max_score += 10
+       max_score += 8
        if home["commute_score"] >= 7:
-           score += 10
+           score += 8
    if user_profile["wants_family"]:
-       max_score += 10
+       max_score += 8
        if home["family_score"] >= 7:
-           score += 10
+           score += 8
    if user_profile["wants_investment"]:
-       max_score += 10
+       max_score += 5
        if home["investment_score"] >= 7:
-           score += 10
+           score += 5
    if user_profile.get("wants_shopping", False):
-       max_score += 10
+       max_score += 8
        if home.get("near_shopping"):
-           score += 10        
+           score += 8        
    if max_score == 0:
        return 0
    raw_score = score / max_score
@@ -142,8 +142,8 @@ def calculate_match(user_profile: dict, home: dict) -> int:
    final_score = round(adjusted_score * 100)
    if final_score < 0:
        final_score = 0
-   if final_score > 100:
-       final_score = 100
+   if final_score > 95:
+       final_score = 95
    return final_score
 
 def get_match_reasons(user_profile: dict, home: dict) -> list:
