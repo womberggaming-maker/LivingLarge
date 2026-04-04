@@ -1560,6 +1560,44 @@ color:#2b4b70;
     font-weight: 600;
 }
 
+        
+        .profile-page {
+   max-width: 900px;
+   margin: 80px auto;
+   padding: 0 20px;
+}
+.profile-page h1 {
+   font-size: 42px;
+   margin-bottom: 24px;
+   color: #1f2f4a;
+}
+.profile-card {
+   background: #ffffff;
+   border-radius: 24px;
+   padding: 32px;
+   box-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
+}
+.profile-card p,
+.profile-card li {
+   font-size: 18px;
+   line-height: 1.6;
+   color: #334155;
+}
+.profile-card ul {
+   margin: 16px 0 24px;
+   padding-left: 20px;
+}
+.primary-btn {
+   display: inline-block;
+   padding: 14px 24px;
+   border-radius: 999px;
+   background: #c68656;
+   color: white;
+   text-decoration: none;
+   font-weight: 700;
+}
+
+
 
 
 
