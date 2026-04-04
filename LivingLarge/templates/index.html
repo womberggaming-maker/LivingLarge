@@ -11,10 +11,10 @@
    {% include 'partials/ai_search.html' %}
    {% include 'partials/results_section.html' %}
    {% include 'partials/footer.html' %}
-   
+
    {% if scroll_to_results %}
 <script>
-   window.addEventListener("load", function () {
+   document.addEventListener("DOMContentLoaded", function () {
        const resultsSection = document.getElementById("results-section");
        if (resultsSection) {
            resultsSection.scrollIntoView({
