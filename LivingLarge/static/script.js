@@ -109,32 +109,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const loader = document.getElementById("ai-loading");
     const results = document.querySelectorAll(".showcase-wrapper");
 
-    if (loader && results) {
-        results.forEach(result => {
-            result.style.display = "none";
-        });
+    if (loader && results){
+        results.style.display = "none";
         setTimeout(() => {
-            loader.style.display = "none";
-            results.forEach(result => {
-                result.style.display = "block";
-            });
+        loader.style.display = "none";
+        results.style.display = "block";
         }, 1200);
     }
 });
-document.addEventListener("DOMContentLoaded", function () {
-   const btn = document.getElementById("scroll-to-search");
-   const section = document.getElementById("search-section");
-   const input = document.getElementById("dream-home-input");
-   if (!btn || !section || !input) return;
-   btn.addEventListener("click", function () {
-       section.scrollIntoView({
-           behavior: "smooth",
-           block: "center"
-       });
-       setTimeout(() => {
-           input.focus();
-       }, 600);
+document.addEventListener("DOMContentLoaded", () => {
+ const scrollBtn = document.getElementById("scroll-to-search");
+ const searchSection = document.getElementById("search-section");
+ if (!scrollBtn || !searchSection) {
+   console.log("scroll hook missing");
+   return;
+ }
+ scrollBtn.addEventListener("click", (e) => {
+   e.preventDefault();
+   const targetY = searchSection.offsetTop - 40;
+   window.scrollTo({
+     top: targetY,
+     behavior: "smooth"
    });
+ });
 });
 document.addEventListener("DOMContentLoaded", function () {
  const form = document.querySelector('.ai-search-card form');
