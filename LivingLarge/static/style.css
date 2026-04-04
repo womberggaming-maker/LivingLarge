@@ -1347,6 +1347,26 @@ color:#2b4b70;
         .top-pick-btn:hover{
             opacity:0.92;
         }
+        .results-section .results-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: #1f2f4a;
+            margin: 0 0 28px 48px;
+            letter-spacing: -0.5px;
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         @media (max-width: 900px){
         .top-pick-content{
             grid-template-columns:1fr;
