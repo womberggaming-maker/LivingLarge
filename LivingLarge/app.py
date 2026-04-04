@@ -429,7 +429,7 @@ def home():
        if user and not results:
               no_results_message = "Vi fandt desværre ingen boliger, der matcher præcist. Prøv at hæv dit budget lidt, vælg et andet område, eller juster på dine krav."
        explanation = get_top_matches_explanation(user, results)
-   return render_template("index.html", results=results, user=user,homes=homes, explanation=explanation, no_results_message=no_results_message, used_fallback=used_fallback)
+   return render_template("index.html", results=results, user=user,homes=homes, explanation=explanation, no_results_message=no_results_message, used_fallback=used_fallback, scroll_to_results=True)
 
 @app.route("/bolig/<int:home_id>")
 def bolig_detaljer(home_id):

@@ -11,6 +11,20 @@
    {% include 'partials/ai_search.html' %}
    {% include 'partials/results_section.html' %}
    {% include 'partials/footer.html' %}
+   
+   {% if scroll_to_results %}
+<script>
+   window.addEventListener("load", function () {
+       const resultsSection = document.getElementById("results-section");
+       if (resultsSection) {
+           resultsSection.scrollIntoView({
+               behavior: "smooth",
+               block: "start"
+           });
+       }
+   });
+</script>
+{% endif %}
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
