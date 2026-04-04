@@ -446,8 +446,8 @@
 
    .results-section{
         max-width: 1200px;
-        margin: 40px auto 80px auto;
-        padding: 0 20px;
+        margin: 60px auto 100px auto;
+        padding: 0 24px;
     }
     .results-info strong {
         max-width: 950px;
@@ -459,9 +459,11 @@
         font-size: 15px;
     }
     .results-section h2{
-        font-size: 32px;
-        margin: 10px 0 18px 0;
-        color: #1f2937;
+        font-size: 36px;
+        font-weight: 700;
+        padding-left: 6px;
+        margin-bottom: 28px;
+        color: #1f2f4a;
     }
     .results-grid{
         display:grid;
