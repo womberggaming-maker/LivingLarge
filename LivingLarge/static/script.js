@@ -145,10 +145,6 @@ document.addEventListener("DOMContentLoaded", function () {
      }, 1200);
    });
  }
- const resultsSection = document.getElementById("results-section");
- if (resultsSection) {
-   resultsSection.scrollIntoView({ behavior: "smooth" });
- }
 });
 
 document.addEventListener("DOMContentLoaded", () => {
