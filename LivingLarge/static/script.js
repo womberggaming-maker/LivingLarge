@@ -121,9 +121,6 @@ document.addEventListener("DOMContentLoaded", function () {
    const btn = document.getElementById("scroll-to-search");
    const section = document.getElementById("search-section");
    const input = document.getElementById("dream-home-input");
-   console.log("btn:", btn);
-   console.log("section:", section);
-   console.log("input:", input);
    if (btn && section && input) {
        btn.addEventListener("click", function (e) {
            e.preventDefault();
@@ -132,8 +129,22 @@ document.addEventListener("DOMContentLoaded", function () {
                block: "center"
            });
            setTimeout(() => {
-               input.focus();
-           }, 700);
+               input.removeAttribute("readonly");
+               input.focus({ preventScroll: true });
+               input.select();
+           }, 900);
+       });
+   }
+});
+document.addEventListener("DOMContentLoaded", function () {
+   const btn = document.getElementById("scroll-to-search");
+   const section = document.getElementById("search-section");
+   if (btn && section) {
+       btn.addEventListener("click", function () {
+           section.scrollIntoView({
+               behavior: "smooth",
+               block: "center"
+           });
        });
    }
 });
