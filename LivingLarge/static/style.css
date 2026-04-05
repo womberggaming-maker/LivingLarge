@@ -1018,7 +1018,8 @@ transition:0.2s;
 }
 .showcase-arrow:hover {
    background: #3f6a99;
-   transform: translateY(-50%);
+   box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+   transform: translateY(-50%) scale(1.05);
 }
 .left-arrow {
    left: -24px;
