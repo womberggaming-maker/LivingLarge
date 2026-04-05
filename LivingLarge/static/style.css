@@ -1707,8 +1707,6 @@ font-size:14px;
        opacity: 0 !important;
        pointer-events: none !important;
    }
-}
-@media (max-width: 768px) {
    .showcase-card,
    .showcase-card.side,
    .showcase-card.featured {
@@ -1717,52 +1715,51 @@ font-size:14px;
        max-width: 250px !important;
    }
 }
-
-@media screen and (max-width: 768px) {
+@media (max-width: 768px) {
  #results-section .showcase-wrapper {
-   position: relative !important;
    max-width: 100% !important;
    margin: 0 !important;
-   overflow: hidden !important;
  }
  #results-section .showcase-board {
-   width: 100% !important;
    overflow-x: auto !important;
    overflow-y: hidden !important;
    -webkit-overflow-scrolling: touch !important;
    touch-action: pan-x !important;
+   padding: 0 !important;
    background: transparent !important;
    box-shadow: none !important;
    border-radius: 0 !important;
-   padding: 0 !important;
+ }
+ #results-section .showcase-board::-webkit-scrollbar {
+   display: none !important;
  }
  #results-section .showcase-grid {
    display: flex !important;
-   flex-wrap: nowrap !important;
    justify-content: flex-start !important;
    align-items: stretch !important;
-   gap: 16px !important;
+   gap: 14px !important;
    width: max-content !important;
    min-width: max-content !important;
-   padding: 0 16px 16px 16px !important;
+   padding: 0 14px 12px 14px !important;
  }
  #results-section .showcase-card,
  #results-section .showcase-card.side,
  #results-section .showcase-card.featured {
-   flex: 0 0 250px !important;
-   width: 250px !important;
-   min-width: 250px !important;
-   max-width: 250px !important;
+   flex: 0 0 82vw !important;
+   width: 82vw !important;
+   min-width: 82vw !important;
+   max-width: 82vw !important;
    transform: none !important;
    opacity: 1 !important;
  }
+ #results-section .showcase-image-wrap img,
+ #results-section .showcase-card.featured .showcase-image-wrap img {
+   height: 200px !important;
+ }
  #results-section .showcase-arrow,
- #results-section button.showcase-arrow,
+ #results-section .showcase-wrapper > .showcase-arrow,
  #results-section .left-arrow,
  #results-section .right-arrow {
    display: none !important;
-   visibility: hidden !important;
-   opacity: 0 !important;
-   pointer-events: none !important;
  }
 }
