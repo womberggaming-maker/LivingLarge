@@ -503,6 +503,18 @@
         flex-direction: column;
         gap: 16px;
     }
+    .results-grid {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding: 0 16px 10px 16px;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .results-grid::-webkit-scrollbar {
+        display: none;
+    }
     .results-header {
         width: 100%;
         padding-left: 16px;
