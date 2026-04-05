@@ -1,39 +1,125 @@
-{% include "partials/navbar.html" %}
-<main class="container">
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Min profil - Living Large</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=17">
+</head>
+<body>
+   {% include "partials/navbar.html" %}
+<main class="profile-page-ll">
+<section class="profile-hero-ll">
 <h1>Min profil</h1>
-<p>Tilpas dine præferencer</p>
-<!-- PROFIL -->
-<div class="profile-grid">
-<div class="profile-card">
-<h3>Boligpræferencer</h3>
-<p><strong>By:</strong> {{ user_profile.city }}</p>
-<p><strong>Budget:</strong> {{ user_profile.budget }}</p>
-<p><strong>Størrelse:</strong> {{ user_profile.min_size }} m²</p>
-<p><strong>Værelser:</strong> {{ user_profile.rooms }}</p>
-<div class="tags">
-           {% if user_profile.wants_garden %}<span>Have</span>{% endif %}
-           {% if user_profile.wants_garage %}<span>Garage</span>{% endif %}
-           {% if user_profile.wants_forest %}<span>Natur</span>{% endif %}
-           {% if user_profile.wants_shopping %}<span>Indkøb</span>{% endif %}
-           {% if user_profile.wants_commute %}<span>Pendling</span>{% endif %}
+<p>Tilpas dine præferencer for at finde det perfekte hjem.</p>
+</section>
+<section class="profile-grid-ll">
+<div class="profile-card-ll">
+<h2>Boligpræferencer</h2>
+<form method="POST" action="{{ url_for('profile') }}" class="profile-form-ll">
+<div class="profile-fields-ll">
+<div class="profile-field-ll">
+<label for="city">By</label>
+<input
+                               type="text"
+                               id="city"
+                               name="city"
+                               value="{{ user_profile.city if user_profile.city else '' }}"
+                               class="profile-input-ll"
+>
+</div>
+<div class="profile-field-ll">
+<label for="budget">Budget (kr.)</label>
+<input
+                               type="number"
+                               id="budget"
+                               name="budget"
+                               value="{{ user_profile.budget if user_profile.budget else '' }}"
+                               class="profile-input-ll"
+>
+</div>
+<div class="profile-field-ll">
+<label for="min_size">Størrelse (m²)</label>
+<input
+                               type="number"
+                               id="min_size"
+                               name="min_size"
+                               value="{{ user_profile.min_size if user_profile.min_size else '' }}"
+                               class="profile-input-ll"
+>
+</div>
+<div class="profile-field-ll">
+<label for="rooms">Værelser</label>
+<input
+                               type="number"
+                               id="rooms"
+                               name="rooms"
+                               value="{{ user_profile.rooms if user_profile.rooms else '' }}"
+                               class="profile-input-ll"
+>
 </div>
 </div>
-<!-- FAVORITTER -->
-<div class="profile-card">
-<h3>Gemte boliger</h3>
-       {% for fav_id in favorites %}
-           {% for home in homes %}
-               {% if home.id == fav_id %}
-<div class="fav-item">
-<p><strong>{{ home.title }}</strong></p>
-<p>{{ home.size }} m² · {{ home.price }} kr</p>
+<div class="profile-preferences-ll">
+<label class="profile-preferences-title-ll">Ønsker</label>
+<div class="profile-pill-group-ll">
+<label class="profile-pill-ll">
+<input type="checkbox" name="preferences" value="garden" {% if user_profile.wants_garden %}checked{% endif %}>
+<span>Have</span>
+</label>
+<label class="profile-pill-ll">
+<input type="checkbox" name="preferences" value="garage" {% if user_profile.wants_garage %}checked{% endif %}>
+<span>Garage</span>
+</label>
+<label class="profile-pill-ll">
+<input type="checkbox" name="preferences" value="shopping" {% if user_profile.wants_shopping %}checked{% endif %}>
+<span>Indkøb</span>
+</label>
+<label class="profile-pill-ll">
+<input type="checkbox" name="preferences" value="forest" {% if user_profile.wants_forest %}checked{% endif %}>
+<span>Natur</span>
+</label>
+<label class="profile-pill-ll">
+<input type="checkbox" name="preferences" value="commute" {% if user_profile.wants_commute %}checked{% endif %}>
+<span>Pendling</span>
+</label>
+<label class="profile-pill-ll">
+<input type="checkbox" name="preferences" value="family" {% if user_profile.wants_family %}checked{% endif %}>
+<span>Familie</span>
+</label>
+<label class="profile-pill-ll">
+<input type="checkbox" name="preferences" value="investment" {% if user_profile.wants_investment %}checked{% endif %}>
+<span>Investering</span>
+</label>
 </div>
+</div>
+<button type="submit" class="profile-save-btn-ll">Gem præferencer</button>
+</form>
+</div>
+<div class="profile-card-ll">
+<h2>Gemte boliger</h2>
+               {% if favorite_homes %}
+<div class="saved-homes-list-ll">
+                       {% for home in favorite_homes %}
+<div class="saved-home-item-ll">
+<div class="saved-home-main-ll">
+<p class="saved-home-title-ll">{{ home.title }}</p>
+<p class="saved-home-meta-ll">
+                                       {{ home.size }} m² · {{ format_price(home.price) }} kr
+</p>
+</div>
+<div class="saved-home-side-ll">
+<span class="saved-home-match-ll">{{ home.match_score }}% match</span>
+<a href="/bolig/{{ home.id }}" class="saved-home-link-ll">Se bolig</a>
+</div>
+</div>
+                       {% endfor %}
+</div>
+               {% else %}
+<p class="saved-home-empty-ll">Du har ikke gemt nogen boliger endnu.</p>
                {% endif %}
-           {% endfor %}
-       {% endfor %}
-       {% if not favorites %}
-<p>Ingen gemte boliger endnu</p>
-       {% endif %}
 </div>
-</div>
+</section>
 </main>
+   {% include "partials/footer.html" %}
+</body>
+</html>

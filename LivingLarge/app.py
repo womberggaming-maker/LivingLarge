@@ -548,17 +548,32 @@ def toggle_favorite(home_id):
    session["favorites"] = favorites
    return redirect(request.referrer or "/")
 
-@app.route("/profile")
+@app.route("/profile", methods=["GET", "POST"])
 def profile():
    if not session.get("logged_in"):
        return redirect(url_for("login"))
-   user_profile = session.get("user_profile", {})
-   favorites = session.get("favorites", [])
+   user_profile = session.get("user_profile", default_profile())
+   if request.method == "POST":
+       user_profile["city"] = request.form.get("city", "").strip()
+       user_profile["budget"] = int(request.form.get("budget")) if request.form.get("budget") else None
+       user_profile["min_size"] = int(request.form.get("min_size")) if request.form.get("min_size") else None
+       user_profile["rooms"] = int(request.form.get("rooms")) if request.form.get("rooms") else None
+       selected_preferences = request.form.getlist("preferences")
+       user_profile["wants_garden"] = "garden" in selected_preferences
+       user_profile["wants_garage"] = "garage" in selected_preferences
+       user_profile["wants_forest"] = "forest" in selected_preferences
+       user_profile["wants_shopping"] = "shopping" in selected_preferences
+       user_profile["wants_commute"] = "commute" in selected_preferences
+       user_profile["wants_family"] = "family" in selected_preferences
+       user_profile["wants_investment"] = "investment" in selected_preferences
+       session["user_profile"] = user_profile
+       return redirect(url_for("profile"))
+   favorite_ids = session.get("favorites", [])
+   favorite_homes = [home for home in homes if home["id"] in favorite_ids]
    return render_template(
        "profile.html",
        user_profile=user_profile,
-       favorites=favorites,
-       homes=homes  # din boligliste
+       favorite_homes=favorite_homes
    )
 
 @app.route("/login", methods=["GET", "POST"])
