@@ -62,12 +62,14 @@
 }
 .property-main h1 {
    margin: 0 0 20px;
-   font-size: 42px;
+   font-size: 44px;
+   font-weight: 700;
    line-height: 1.08;
    letter-spacing: -0.4px;
    color: #1d3557;
 }
 .analysis-box {
+   position: relative;
    background: #f7fbff;
    border: 1px solid #e3edf9;
    border-left: 5px solid #4f7db8;
@@ -77,6 +79,14 @@
 }
 .analysis-box strong {
    color: #1d3557;
+}
+.analysis-box::after {
+  content: "x";
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  font-size: 14px;
+  color: #94a3b8;
 }
 .match-breakdown {
    background: transparent;
@@ -160,6 +170,8 @@
    margin-bottom: 6px;
 }
 .property-sidebar {
+   position: sticky;
+   top: 32px;
    display: flex;
    flex-direction: column;
    gap: 20px;
