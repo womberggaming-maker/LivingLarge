@@ -60,7 +60,7 @@
             font-style: italic;
             font-size: 46px;
             font-weight: 700;
-            color: #1f5fc4;
+            color: #0f172a;
             line-height: 1;
             letter-spacing: 0.5px;
             white-space: nowrap;
@@ -74,12 +74,12 @@
         }
         .nav-links a {
             text-decoration: none;
-            color: #333;
-            font-size: 16px;
+            color: #1e293b;
+            font-size: 15px;
             font-weight: 500;
         }
         .nav-links a:hover {
-            color: #1d3557;
+            color: #0f172a;
         }
         .login-btn {
             background: #3d6fb6;
