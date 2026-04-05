@@ -201,7 +201,7 @@ def get_match_summary(user_profile, home):
    negatives = []
    # POSITIVE MATCHES
    if user_profile["city"] and home["city"].lower() == user_profile["city"].lower():
-       positives.append("ligger i den ønskede by")
+       positives.append("ligger i din ønskede by")
    if user_profile["budget"] is not None:
        if home["price"] <= user_profile["budget"]:
            positives.append("holder sig inden for budget")
@@ -216,18 +216,18 @@ def get_match_summary(user_profile, home):
        if home.get("rooms", 0) >= user_profile["rooms"]:
            positives.append("har nok værelser")        
    if user_profile["wants_garden"] and home["garden"]:
-       positives.append("har have")
+       positives.append("har en have")
    if user_profile["wants_garage"] and home["garage"]:
        positives.append("har garage")
    if user_profile["wants_forest"] and home["forest_nearby"]:
-       positives.append("ligger tæt på natur")
+       positives.append("ligger tæt på naturen")
    if user_profile["wants_commute"] and home["commute_score"] >= 7:
-       positives.append("har kort pendling")
+       positives.append("har god pendlerafstand")
    if user_profile.get("wants_shopping", False) and home.get("near_shopping"):
-       positives.append("ligger tæt på indkøb")
+       positives.append("er tæt på indkøb")
    # GENERÉR TEKST
    if positives:
-           text = "Boligen matcher godt, fordi den " + ", ".join(positives[:2])
+           text = "Boligen matcher godt dine ønsker, fordi den " + " og ".join(positives[:2])
    else:
        text = "Boligen matcher delvist dine ønsker"
    if negatives:
