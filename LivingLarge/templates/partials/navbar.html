@@ -1,11 +1,15 @@
-<header class="navbar" id="top">
+<nav class="navbar">
 <div class="nav-inner">
 <a href="{{ url_for('home') }}" class="logo">Living Large</a>
 <div class="nav-links">
-<a href="{{ url_for('reset') }}">Hjem</a>
+<a href="{{ url_for('home') }}">Hjem</a>
 <a href="{{ url_for('profile') }}">Min profil</a>
 <a href="{{ url_for('about') }}">Om os</a>
+           {% if session.get('logged_in') %}
+<a href="{{ url_for('logout') }}" class="login-btn">Log ud</a>
+           {% else %}
 <a href="{{ url_for('login') }}" class="login-btn">Log ind</a>
+           {% endif %}
 </div>
 </div>
-</header>
+</nav>

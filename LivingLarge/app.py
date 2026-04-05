@@ -587,6 +587,11 @@ def login():
        return redirect(url_for("profile"))
    return render_template("login.html")
 
+@app.route("/logout")
+def logout():
+   session.clear()
+   return redirect(url_for("home"))
+
 @app.route("/about")
 def about():
    return render_template("about.html")
