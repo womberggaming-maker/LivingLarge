@@ -157,10 +157,12 @@ def calculate_match(user_profile: dict, home: dict) -> int:
    if max_score == 0:
        return 0
    final_score = round((score / max_score) * 100)
-   if final_score < 8:
-       final_score = 8
+   if final_score < 5:
+       final_score = 5
    if final_score > 95:
        final_score = 95
+   if score / max_score > 0.8:
+       final_score += 3
    return final_score
 
 def get_match_reasons(user_profile: dict, home: dict) -> list:
