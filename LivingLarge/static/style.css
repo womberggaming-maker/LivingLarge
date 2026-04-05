@@ -1838,3 +1838,8 @@ font-size:14px;
        display: none !important;
    }
 }
+@media (max-width: 768px) {
+   .showcase-board {
+       outline: 4px solid red !important;
+   }
+}
