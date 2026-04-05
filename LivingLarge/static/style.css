@@ -507,14 +507,14 @@
         width: 100%;
         padding-left: 16px;
     }
-        .results-container {
+    .results-container {
         display: flex;
         gap: 16px;
         overflow-x: auto;
         padding-bottom: 10px;
         scroll-snap-type: x mandatory;
     }
-    .result-card {
+    .home-card {
         min-width: 280px;
         flex-shrink: 0;
         scroll-snap-align: start;
