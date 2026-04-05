@@ -3,11 +3,8 @@ from homes import homes
 import random 
 
 app = Flask(__name__)
-app.jinja_env.globals.update(format_price=format_price)
 app.secret_key = "living_large_secret_key"
 
-def format_price(price):
-   return f"{price:,.0f}".replace(",", ".")
 
 def default_profile():
    return {
@@ -97,6 +94,10 @@ def parse_dream_home(text):
    if "indkøb" in text or "butik" in text or "supermarked" in text:
        profile["wants_shopping"] = True
    return profile
+
+def format_price(price):
+   return f"{price:,.0f}".replace(",", ".")
+app.jinja_env.globals.update(format_price=format_price)
 
 def calculate_match(user_profile: dict, home: dict) -> int:
    score = 0
