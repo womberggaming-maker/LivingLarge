@@ -495,7 +495,19 @@
         overflow:hidden;
         box-shadow:0 14px 34px rgba(15, 23, 42, 0.10);
     }
-    .results-container {
+}
+    
+    @media (max-width: 768px) {
+    .results-section {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    .results-header {
+        width: 100%;
+        padding-left: 16px;
+    }
+        .results-container {
         display: flex;
         gap: 16px;
         overflow-x: auto;
