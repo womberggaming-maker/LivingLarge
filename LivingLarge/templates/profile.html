@@ -1,51 +1,39 @@
-<!DOCTYPE html>
-<html lang="da">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Min profil - Living Large</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-   {% include 'partials/navbar.html' %}
+{% include "partials/navbar.html" %}
 <main class="container">
-<section class="profile-page">
 <h1>Min profil</h1>
-           {% if user_profile %}
+<p>Tilpas dine præferencer</p>
+<!-- PROFIL -->
+<div class="profile-grid">
 <div class="profile-card">
-<p><strong>By:</strong> {{ user_profile.city or "Ikke valgt" }}</p>
-<p><strong>Budget:</strong>
-                       {% if user_profile.budget %}
-                           {{ user_profile.budget }} kr
-                       {% else %}
-                           Ikke valgt
-                       {% endif %}
-</p>
-<p><strong>Minimum størrelse:</strong>
-                       {% if user_profile.min_size %}
-                           {{ user_profile.min_size }} m²
-                       {% else %}
-                           Ikke valgt
-                       {% endif %}
-</p>
-<h3>Ønsker</h3>
-<ul>
-                       {% if user_profile.wants_garage %}<li>Garage</li>{% endif %}
-                       {% if user_profile.wants_garden %}<li>Have</li>{% endif %}
-                       {% if user_profile.wants_forest %}<li>Tæt på skov</li>{% endif %}
-                       {% if user_profile.wants_commute %}<li>Kort pendling</li>{% endif %}
-                       {% if user_profile.wants_family %}<li>Familievenligt område</li>{% endif %}
-                       {% if user_profile.wants_investment %}<li>God investering</li>{% endif %}
-</ul>
-<a class="primary-btn" href="{{ url_for('reset') }}">Nulstil profil</a>
+<h3>Boligpræferencer</h3>
+<p><strong>By:</strong> {{ user_profile.city }}</p>
+<p><strong>Budget:</strong> {{ user_profile.budget }}</p>
+<p><strong>Størrelse:</strong> {{ user_profile.min_size }} m²</p>
+<p><strong>Værelser:</strong> {{ user_profile.rooms }}</p>
+<div class="tags">
+           {% if user_profile.wants_garden %}<span>Have</span>{% endif %}
+           {% if user_profile.wants_garage %}<span>Garage</span>{% endif %}
+           {% if user_profile.wants_forest %}<span>Natur</span>{% endif %}
+           {% if user_profile.wants_shopping %}<span>Indkøb</span>{% endif %}
+           {% if user_profile.wants_commute %}<span>Pendling</span>{% endif %}
 </div>
-           {% else %}
+</div>
+<!-- FAVORITTER -->
 <div class="profile-card">
-<p>Du har ikke oprettet en profil endnu.</p>
-<a class="primary-btn" href="{{ url_for('home') }}">Gå til forsiden</a>
+<h3>Gemte boliger</h3>
+       {% for fav_id in favorites %}
+           {% for home in homes %}
+               {% if home.id == fav_id %}
+<div class="fav-item">
+<p><strong>{{ home.title }}</strong></p>
+<p>{{ home.size }} m² · {{ home.price }} kr</p>
 </div>
-           {% endif %}
-</section>
+               {% endif %}
+           {% endfor %}
+       {% endfor %}
+       {% if not favorites %}
+<p>Ingen gemte boliger endnu</p>
+       {% endif %}
+</div>
+</div>
 </main>
-</body>
-</html>

@@ -547,12 +547,19 @@ def toggle_favorite(home_id):
        favorites.append(home_id)
    session["favorites"] = favorites
    return redirect(request.referrer or "/")
+
 @app.route("/profile")
 def profile():
    if not session.get("logged_in"):
        return redirect(url_for("login"))
-   user_profile = session.get("user_profile")
-   return render_template("profile.html", user_profile=user_profile)
+   user_profile = session.get("user_profile", {})
+   favorites = session.get("favorites", [])
+   return render_template(
+       "profile.html",
+       user_profile=user_profile,
+       favorites=favorites,
+       homes=homes  # din boligliste
+   )
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
