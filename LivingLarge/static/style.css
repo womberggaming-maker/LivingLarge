@@ -1620,17 +1620,20 @@ font-size:14px;
    border-radius: 24px !important;
  }
  .ai-search-shell {
-   max-width: 100% !important;
-   width: 100% !important;
-   padding: 0 !important;
+   display: block !important;
+   margin: 0 auto !important;
+   padding: 0 4px !important;
  }
  .ai-search-card {
    max-width: 100% !important;
    padding: 0 !important;
  }
  .search-header {
-   margin-bottom: 20px !important;
-   padding: 20px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto 20px auto !important;
+    padding: 22px 16px !important;
+    box-sizing: border-box !important;
  }
  .ai-search-box {
    max-width: 100% !important;
