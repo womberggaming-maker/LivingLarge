@@ -1699,12 +1699,6 @@ font-size:14px;
 }
 }
 @media (max-width: 768px) {
-     .showcase-card,
-   .showcase-card.side,
-   .showcase-card.featured {
-       width: 250px !important;
-       min-width: 250px !important;
-       max-width: 250px !important;
    button.showcase-arrow,
    .showcase-arrow,
    .left-arrow,
@@ -1712,5 +1706,14 @@ font-size:14px;
        display: none !important;
        opacity: 0 !important;
        pointer-events: none !important;
+   }
+}
+@media (max-width: 768px) {
+   .showcase-card,
+   .showcase-card.side,
+   .showcase-card.featured {
+       width: 250px !important;
+       min-width: 250px !important;
+       max-width: 250px !important;
    }
 }
