@@ -441,12 +441,6 @@
    .search-card-inner{
        padding:20px;
    }
-   .results-grid{
-        display:grid;
-        grid-template-columns:repeat(auto-fit, minmax(320px,1fr));
-        gap:30px;
-        margin-top:40px;
-   }
    .results-section{
         max-width: 1200px;
         margin: 60px auto 100px auto;
@@ -467,12 +461,6 @@
         padding-left: 6px;
         margin-bottom: 28px;
         color: #1f2f4a;
-    }
-    .results-grid{
-        display:grid;
-        grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
-        gap:28px;
-        margin-top:20px;
     }
     .results-section {
         margin: 80px 0 120px;
@@ -529,7 +517,7 @@
    .results-grid::-webkit-scrollbar {
        display: none;
    }
-   .home-card {
+   .showcase-card {
        flex: 0 0 280px;
        min-width: 280px;
        max-width: 280px;
@@ -1734,18 +1722,6 @@ color:#2b4b70;
             max-width: 900px;
             margin: auto;
        }
-
-        .results-grid {
-
-            display: grid;
-
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-
-            gap: 24px;
-
-            margin-top: 10px;
-
-        }
 
         .results-info {
             padding: 14px 18px;
