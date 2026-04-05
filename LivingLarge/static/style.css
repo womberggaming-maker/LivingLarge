@@ -496,24 +496,24 @@
         box-shadow:0 14px 34px rgba(15, 23, 42, 0.10);
     }
     .results-container {
-   display: flex;
-   gap: 16px;
-   overflow-x: auto;
-   padding-bottom: 10px;
-   scroll-snap-type: x mandatory;
-}
-.result-card {
-   min-width: 280px;
-   flex-shrink: 0;
-   scroll-snap-align: start;
-}
-.results-container::-webkit-scrollbar {
-   display: none;
-}
-.results-container {
-   -ms-overflow-style: none;
-   scrollbar-width: none;
-}
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        scroll-snap-type: x mandatory;
+    }
+    .result-card {
+        min-width: 280px;
+        flex-shrink: 0;
+        scroll-snap-align: start;
+    }
+    .results-container::-webkit-scrollbar {
+        display: none;
+    }
+    .results-container {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
     }
     .home-card:hover{
         transform:translateY(-4px);
