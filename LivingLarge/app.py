@@ -549,11 +549,20 @@ def toggle_favorite(home_id):
    return redirect(request.referrer or "/")
 @app.route("/profile")
 def profile():
+   if not session.get("logged_in"):
+       return redirect(url_for("login"))
    user_profile = session.get("user_profile")
    return render_template("profile.html", user_profile=user_profile)
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
+   if request.method == "POST":
+       email = request.form.get("email", "").strip()
+       password = request.form.get("password", "").strip()
+       # MVP placeholder
+       session["logged_in"] = True
+       session["user_email"] = email
+       return redirect(url_for("profile"))
    return render_template("login.html")
 
 @app.route("/about")

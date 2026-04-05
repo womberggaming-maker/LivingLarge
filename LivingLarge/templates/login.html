@@ -4,19 +4,62 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Log ind - Living Large</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=13">
 </head>
 <body>
    {% include 'partials/navbar.html' %}
-<main class="container">
-<section class="profile-page">
-<h1>Log ind</h1>
-<div class="profile-card">
-<p>Login kommer snart.</p>
-<p>Lige nu er Living Large i MVP-version.</p>
-<a class="primary-btn" href="{{ url_for('home') }}">Tilbage til forsiden</a>
+<main class="login-page">
+<div class="login-overlay"></div>
+<section class="login-card">
+<h1>Velkommen tilbage</h1>
+<p class="login-subtext">
+               Log ind for at se dine gemte matches og tilpasse din søgning.
+</p>
+<form method="POST" action="/login" class="login-form">
+<div class="login-field">
+<label for="email">Email:</label>
+<input
+                       id="email"
+                       name="email"
+                       type="email"
+                       placeholder="Indtast din e-mail"
+                       class="login-input"
+                       required
+>
 </div>
+<div class="login-field">
+<label for="password">Adgangskode:</label>
+<div class="password-wrap">
+<input
+                           id="password"
+                           name="password"
+                           type="password"
+                           placeholder="Indtast din adgangskode"
+                           class="login-input password-input"
+                           required
+>
+<button type="button" class="toggle-password" onclick="togglePassword()">
+                           👁
+</button>
+</div>
+<div class="forgot-row">
+<a href="#" class="forgot-link">Glemt din adgangskode?</a>
+</div>
+</div>
+<button type="submit" class="login-btn-main">Log ind</button>
+</form>
+<p class="login-footer-text">
+               Har du ikke en profil?
+<a href="#" class="create-user-link">Opret en bruger her</a>
+</p>
 </section>
 </main>
+   {% include 'partials/footer.html' %}
+<script>
+       function togglePassword() {
+           const input = document.getElementById("password");
+           input.type = input.type === "password" ? "text" : "password";
+       }
+</script>
 </body>
 </html>

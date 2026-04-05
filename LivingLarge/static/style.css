@@ -1415,37 +1415,6 @@ color:#2b4b70;
    transition: box-shadow 0.3s ease;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
         .search-btn{
             width:100%;
             padding:12px;
@@ -1567,6 +1536,157 @@ font-size:14px;
 .reset-btn:hover {
    background: #cfcfcf;
 }
+
+.login-page {
+   position: relative;
+   min-height: calc(100vh - 120px);
+   padding: 80px 24px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-image: url("/static/images/hero-bg.jpg");
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+}
+.login-overlay {
+   position: absolute;
+   inset: 0;
+   background: rgba(15, 23, 42, 0.45);
+}
+.login-card {
+   position: relative;
+   z-index: 2;
+   width: 100%;
+   max-width: 430px;
+   background: rgba(255, 255, 255, 0.95);
+   border-radius: 24px;
+   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+   padding: 34px 28px;
+   backdrop-filter: blur(6px);
+}
+.login-card h1 {
+   margin: 0 0 10px 0;
+   text-align: center;
+   font-size: 42px;
+   color: #1f2f4a;
+   font-family: Georgia, "Times New Roman", serif;
+}
+.login-subtext {
+   margin: 0 0 28px 0;
+   text-align: center;
+   color: #5f6b7a;
+   font-size: 15px;
+   line-height: 1.6;
+}
+.login-form {
+   display: flex;
+   flex-direction: column;
+   gap: 18px;
+}
+.login-field label {
+   display: block;
+   margin-bottom: 8px;
+   font-size: 14px;
+   font-weight: 700;
+   color: #1f2f4a;
+}
+.login-input {
+   width: 100%;
+   box-sizing: border-box;
+   border: 1px solid #d7dfeb;
+   border-radius: 14px;
+   background: #ffffff;
+   color: #1f2937;
+   font-size: 15px;
+   padding: 14px 16px;
+   outline: none;
+}
+.login-input:focus {
+   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.16);
+   border-color: #2563eb;
+}
+.password-wrap {
+   position: relative;
+}
+.password-input {
+   padding-right: 52px;
+}
+.toggle-password {
+   position: absolute;
+   top: 50%;
+   right: 14px;
+   transform: translateY(-50%);
+   border: none;
+   background: transparent;
+   cursor: pointer;
+   font-size: 18px;
+   color: #64748b;
+   padding: 0;
+}
+.forgot-row {
+   margin-top: 8px;
+   text-align: right;
+}
+.forgot-link {
+   font-size: 13px;
+   color: #2563eb;
+   text-decoration: none;
+}
+.forgot-link:hover {
+   text-decoration: underline;
+}
+.login-btn-main {
+   margin-top: 6px;
+   width: 100%;
+   border: none;
+   border-radius: 999px;
+   padding: 15px 22px;
+   background: #2563eb;
+   color: #ffffff;
+   font-weight: 800;
+   font-size: 15px;
+   text-transform: uppercase;
+   letter-spacing: 0.5px;
+   cursor: pointer;
+   transition: background 0.2s ease, transform 0.2s ease;
+}
+.login-btn-main:hover {
+   background: #1d4ed8;
+   transform: translateY(-1px);
+}
+.login-footer-text {
+   margin: 22px 0 0 0;
+   text-align: center;
+   font-size: 14px;
+   color: #5f6b7a;
+}
+.create-user-link {
+   color: #2563eb;
+   text-decoration: none;
+   font-weight: 600;
+}
+.create-user-link:hover {
+   text-decoration: underline;
+}
+@media (max-width: 640px) {
+   .login-page {
+       padding: 40px 16px;
+       min-height: auto;
+   }
+   .login-card {
+       padding: 24px 18px;
+       border-radius: 20px;
+   }
+   .login-card h1 {
+       font-size: 32px;
+   }
+   .login-subtext {
+       font-size: 14px;
+   }
+}
+
+
 @media (max-width: 900px){
    .checkbox-group{
        grid-template-columns: repeat(2, minmax(0, 1fr));
