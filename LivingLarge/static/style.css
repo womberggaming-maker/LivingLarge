@@ -1669,6 +1669,180 @@ font-size:14px;
 .create-user-link:hover {
    text-decoration: underline;
 }
+
+.about-page-ll {
+   max-width: 980px;
+   margin: 0 auto;
+   padding: 72px 24px 110px;
+}
+.about-hero-ll {
+   margin-bottom: 54px;
+}
+.about-hero-inner-ll {
+   max-width: 760px;
+   margin: 0 auto;
+   text-align: center;
+}
+.about-hero-ll h1 {
+   margin: 0 0 16px 0;
+   font-family: Georgia, "Times New Roman", serif;
+   font-size: 58px;
+   line-height: 1.05;
+   color: #1f2f4a;
+   font-weight: 700;
+}
+.about-hero-ll p {
+   margin: 0;
+   font-size: 19px;
+   line-height: 1.75;
+   color: #6b7280;
+}
+.about-mission-ll {
+   margin-bottom: 60px;
+}
+.about-ai-ll {
+   margin-bottom: 60px;
+}
+.about-ai-header-ll {
+   margin-bottom: 24px;
+   text-align: center;
+}
+.about-ai-header-ll h2 {
+   margin: 0;
+   font-family: Georgia, "Times New Roman", serif;
+   font-size: 42px;
+   line-height: 1.1;
+   color: #1f2f4a;
+   font-weight: 700;
+}
+.about-steps-ll {
+   display: flex;
+   flex-direction: column;
+   gap: 18px;
+}
+.about-card-ll {
+   background: #ffffff;
+   border: 1px solid #edf1f6;
+   border-radius: 22px;
+   box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
+}
+.about-mission-card-ll,
+.about-step-card-ll {
+   display: flex;
+   align-items: flex-start;
+   gap: 18px;
+   padding: 24px 24px;
+}
+.about-icon-box-ll {
+   flex: 0 0 52px;
+   width: 52px;
+   height: 52px;
+   border-radius: 16px;
+   background: rgba(200, 116, 58, 0.10);
+   color: #c8743a;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 24px;
+   line-height: 1;
+   margin-top: 2px;
+}
+.about-card-content-ll h2,
+.about-card-content-ll h3 {
+   margin: 0 0 8px 0;
+   color: #1f2f4a;
+   font-weight: 700;
+}
+.about-card-content-ll h2 {
+   font-size: 28px;
+   font-family: Georgia, "Times New Roman", serif;
+}
+.about-card-content-ll h3 {
+   font-size: 24px;
+   font-family: Georgia, "Times New Roman", serif;
+}
+.about-card-content-ll p {
+   margin: 0;
+   font-size: 16px;
+   line-height: 1.75;
+   color: #6b7280;
+}
+.about-cta-ll {
+   text-align: center;
+   padding-top: 8px;
+}
+.about-cta-ll p {
+   margin: 0 0 14px 0;
+   color: #8b95a5;
+   font-size: 16px;
+}
+.about-cta-btn-ll {
+   display: inline-block;
+   padding: 13px 28px;
+   border-radius: 999px;
+   background: #c8743a;
+   color: white;
+   text-decoration: none;
+   font-weight: 700;
+   font-size: 15px;
+   transition: background 0.2s ease, transform 0.2s ease;
+}
+.about-cta-btn-ll:hover {
+   background: #b96831;
+   transform: translateY(-1px);
+}
+@media (max-width: 768px) {
+   .about-page-ll {
+       padding: 48px 16px 80px;
+   }
+   .about-hero-ll h1 {
+       font-size: 42px;
+   }
+   .about-hero-ll p {
+       font-size: 17px;
+   }
+   .about-ai-header-ll h2 {
+       font-size: 32px;
+   }
+   .about-mission-card-ll,
+   .about-step-card-ll {
+       padding: 20px 18px;
+       gap: 14px;
+   }
+   .about-icon-box-ll {
+       width: 44px;
+       height: 44px;
+       flex-basis: 44px;
+       border-radius: 14px;
+       font-size: 20px;
+   }
+   .about-card-content-ll h2 {
+       font-size: 24px;
+   }
+   .about-card-content-ll h3 {
+       font-size: 21px;
+   }
+   .about-card-content-ll p {
+       font-size: 15px;
+       line-height: 1.65;
+   }
+}
+@media (max-width: 560px) {
+   .about-hero-ll h1 {
+       font-size: 36px;
+   }
+   .about-hero-ll p {
+       font-size: 16px;
+   }
+   .about-ai-header-ll h2 {
+       font-size: 28px;
+   }
+   .about-mission-card-ll,
+   .about-step-card-ll {
+       flex-direction: row;
+       align-items: flex-start;
+   }
+}
 @media (max-width: 640px) {
    .login-page {
        padding: 40px 16px;
