@@ -150,12 +150,12 @@
             flex-wrap: wrap;
         }
         .hero-btn {
-            min-width: 150px;
-            padding: 12px 24px;
+            min-width: 200px;
+            padding: 18px 36px;
             border-radius: 999px;
             text-decoration: none;
-            font-size: 16px;
-            font-weight: 500;
+            font-size: 18px;
+            font-weight: 600;
             text-align: center;
             transition: 0.2s ease;
         }
