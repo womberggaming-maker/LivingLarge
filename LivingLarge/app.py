@@ -99,31 +99,33 @@ def calculate_match(user_profile: dict, home: dict) -> int:
    score = 0
    max_score = 0
    if user_profile["city"]:
-       max_score += 35
+       max_score += 30
        if home["city"].lower() == user_profile["city"].lower():
-           score += 35
-       else:
-           score -=25
+           score += 30
    if user_profile["budget"] is not None:
-       max_score += 25
+       max_score += 20
        if home["price"] <= user_profile["budget"]:
-           score += 25
+           score += 20
        elif home["price"] <= user_profile["budget"] * 1.1:
-           score += 15
+           score += 12
        elif home["price"] <= user_profile["budget"] * 1.2:
-           score += 5
+           score += 6
    if user_profile["min_size"] is not None:
        max_score += 15
        if home["size"] >= user_profile["min_size"]:
-           score += 12
+           score += 15
        elif home["size"] >= user_profile["min_size"] * 0.9:
-           score += 7
+           score += 8
    if user_profile.get("rooms") is not None:
        max_score += 15
        if home.get("rooms", 0) >= user_profile["rooms"]:
-           score += 12
+           score += 15
        elif home.get("rooms", 0) == user_profile["rooms"] - 1:
-           score += 7        
+           score += 8
+   if user_profile.get("wants_shopping", False):
+       max_score += 8
+       if home.get("near_shopping"):
+           score += 8
    if user_profile["wants_garage"]:
        max_score += 8
        if home["garage"]:
@@ -137,28 +139,22 @@ def calculate_match(user_profile: dict, home: dict) -> int:
        if home["forest_nearby"]:
            score += 8
    if user_profile["wants_commute"]:
-       max_score += 8
+       max_score += 7
        if home["commute_score"] >= 7:
-           score += 8
+           score += 7
    if user_profile["wants_family"]:
-       max_score += 8
+       max_score += 6
        if home["family_score"] >= 7:
-           score += 8
+           score += 6
    if user_profile["wants_investment"]:
        max_score += 5
        if home["investment_score"] >= 7:
            score += 5
-   if user_profile.get("wants_shopping", False):
-       max_score += 8
-       if home.get("near_shopping"):
-           score += 8        
    if max_score == 0:
        return 0
-   raw_score = score / max_score
-   adjusted_score = raw_score * 1.0
-   final_score = round(adjusted_score * 100)
-   if final_score < 0:
-       final_score = 0
+   final_score = round((score / max_score) * 100)
+   if final_score < 8:
+       final_score = 8
    if final_score > 95:
        final_score = 95
    return final_score
