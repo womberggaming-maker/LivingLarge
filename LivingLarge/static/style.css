@@ -44,7 +44,8 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid #eef2f7;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.4);
         }
         .nav-inner {
             max-width: 1400px;
@@ -60,6 +61,7 @@
             font-style: italic;
             font-size: 46px;
             font-weight: 700;
+            margin-top: 20px;
             color: #0f172a;
             line-height: 1;
             letter-spacing: 0.5px;
@@ -82,12 +84,16 @@
             color: #0f172a;
         }
         .login-btn {
-            background: #3d6fb6;
+            background: #2563eb;
             color: white !important;
-            padding: 8px 18px;
-            border-radius: 8px;
-            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 14px;
             text-decoration: none;
+        }
+        .login-btn:hover {
+            background: #1d4ed8;
         }
 
 
