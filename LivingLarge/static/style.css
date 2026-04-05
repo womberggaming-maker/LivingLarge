@@ -1158,7 +1158,7 @@ color:#2b4b70;
    padding: 14px 20px;
  }
  .nav-inner {
-   flex-wrap: wrap;
+    flex-wrap: wrap;
    gap: 14px;
  }
  .logo {
@@ -1445,66 +1445,7 @@ color:#2b4b70;
 
 
 
-        
-        .checkbox-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 500;
-            color: #334155;
-        }
-
-        h1 {
-
-            color: #1d3557;
-
-            margin-bottom: 15px;
-
-            text-align: center;
-
-        }
-
-        h2 {
-
-            color: #1d3557;
-
-            margin-top: 35px;
-
-        }
-
-        input[type="text"],
-
-        input[type="number"] {
-
-            width: 100%;
-
-            max-width: 320px;
-
-            padding: 10px;
-
-            margin-top: 6px;
-
-            margin-bottom: 16px;
-
-            border: 1px solid #ccc;
-
-            border-radius: 8px;
-
-        }
-
-        button,
-        .btn{
-            background:#2563eb;
-            color:white;
-            padding:10px 18px;
-            border-radius:8px;
-            font-weight:600;
-            cursor:pointer;
-            transition:all 0.2s ease;
-        }
-        button:hover,
-        .btn:hover{
-            background:#1d4ed8;
-        }
+    
         .search-btn{
             width:100%;
             padding:12px;
@@ -1641,4 +1582,53 @@ font-size:14px;
    .search-card{
        padding:20px;
    }
+}
+@media (max-width: 768px) {
+ .navbar {
+   padding: 16px 0;
+ }
+ .nav-inner {
+   padding: 0 16px;
+   flex-wrap: wrap;
+   gap: 12px;
+ }
+ .logo {
+   font-size: 32px;
+   margin-top: 0;
+ }
+ .nav-links {
+   width: 100%;
+   justify-content: flex-start;
+   gap: 12px;
+   margin-left: 0;
+ }
+ .nav-links a {
+   font-size: 14px;
+ }
+ .login-btn {
+   padding: 10px 14px;
+   font-size: 14px;
+ }
+}
+@media (max-width: 768px) {
+ .results-section {
+   margin: 48px 0 80px;
+   padding: 0 16px;
+   overflow-x: hidden;
+ }
+ .results-container {
+   max-width: 100%;
+   overflow-x: hidden;
+ }
+ .results-title {
+   font-size: 28px;
+   margin: 0 0 20px 0;
+ }
+ .showcase-card,
+ .showcase-card.side,
+ .showcase-card.featured {
+   width: 260px;
+   min-width: 260px;
+   max-width: 260px;
+ }
 }
