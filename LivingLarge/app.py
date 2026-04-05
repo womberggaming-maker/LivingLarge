@@ -3,8 +3,11 @@ from homes import homes
 import random 
 
 app = Flask(__name__)
+app.jinja_env.globals.update(format_price=format_price)
 app.secret_key = "living_large_secret_key"
 
+def format_price(price):
+   return f"{price:,.0f}".replace(",", ".")
 
 def default_profile():
    return {

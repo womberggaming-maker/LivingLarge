@@ -22,7 +22,7 @@
                                {{ home.size }} m² |
                                {{ home.rooms if home.rooms else "?" }} værelser |
                                Energimærke: {{ home.energy if home.energy else "?" }} |
-                               {{ home.price }} kr
+                               {{ format_price(home.price) }} kr
 </div>
 <a href="/bolig/{{ home.id }}" class="details-button">
                                SE DETALJER
