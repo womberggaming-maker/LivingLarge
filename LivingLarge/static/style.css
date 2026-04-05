@@ -486,42 +486,37 @@
 }
     
     @media (max-width: 768px) {
-   .results-section {
-       margin: 60px auto 100px auto;
-       padding: 0 24px;
+   .showcase-wrapper {
+       display: block;
    }
-   .results-section h2,
-   .results-title {
-       font-size: 32px;
-       margin-bottom: 24px;
-   }
-   .results-container {
+   .showcase-board {
+       width: 100%;
        max-width: 100%;
-       margin: 0;
-       padding: 0;
-       overflow: visible;
-   }
-   .results-grid {
-       display: flex;
-       flex-wrap: nowrap;
-       gap: 16px;
        overflow-x: auto;
        overflow-y: hidden;
-       padding: 0 4px 12px 4px;
-       scroll-snap-type: x mandatory;
        -webkit-overflow-scrolling: touch;
        touch-action: pan-x;
        scrollbar-width: none;
        -ms-overflow-style: none;
+       padding: 0;
    }
-   .results-grid::-webkit-scrollbar {
+   .showcase-board::-webkit-scrollbar {
        display: none;
+   }
+   .showcase-grid {
+       display: flex;
+       flex-wrap: nowrap;
+       gap: 16px;
+       width: max-content;
+       padding: 0 16px 12px 16px;
    }
    .showcase-card {
        flex: 0 0 280px;
        min-width: 280px;
        max-width: 280px;
-       scroll-snap-align: start;
+   }
+   .showcase-arrow {
+       display: none;
    }
 }
     .home-card:hover{
@@ -911,12 +906,6 @@ color:var(--text);
 
 
 @media (max-width: 1100px){
-
-.showcase-grid{
-
-grid-template-columns:1fr;
-
-}
 
 .showcase-card.side,
 
