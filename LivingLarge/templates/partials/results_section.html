@@ -13,6 +13,13 @@
                                {{ home.match_score }}%<br>MATCH
 </div>
 </div>
+<a href="/toggle_favorite/{{ home.id }}" class="favorite-btn">
+   {% if home.id in favorites %}
+       ❤️
+   {% else %}
+       🤍
+   {% endif %}
+</a>
 <div class="showcase-body">
 <h3>{{ home.title }}</h3>
 <div class="ai-insight">

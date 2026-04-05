@@ -504,6 +504,7 @@ def home():
    return render_template(
        "index.html",
        results=results,
+       favorites=session.get("favorites", []),
        user=user,
        homes=homes,
        explanation=explanation,
@@ -511,6 +512,7 @@ def home():
        used_fallback=used_fallback,
        dream_text=dream_text,
    )
+
 
 @app.route("/bolig/<int:home_id>")
 def bolig_detaljer(home_id):
@@ -534,6 +536,17 @@ def bolig_detaljer(home_id):
        match_summary=match_summary,
        user_profile=user_profile
    )    
+@app.route("/toggle_favorite/<int:home_id>")
+def toggle_favorite(home_id):
+   if "favorites" not in session:
+       session["favorites"] = []
+   favorites = session["favorites"]
+   if home_id in favorites:
+       favorites.remove(home_id)
+   else:
+       favorites.append(home_id)
+   session["favorites"] = favorites
+   return redirect(request.referrer or "/")
 @app.route("/profile")
 def profile():
    user_profile = session.get("user_profile")
