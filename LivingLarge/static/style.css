@@ -1797,32 +1797,3 @@ font-size:14px;
    }
 }
 }
-@media (max-width: 768px) {
-   .mobile-swipe-board {
-       overflow-x: auto !important;
-       overflow-y: hidden !important;
-       -webkit-overflow-scrolling: touch !important;
-       touch-action: pan-x !important;
-       scrollbar-width: none !important;
-       -ms-overflow-style: none !important;
-   }
-   .mobile-swipe-board::-webkit-scrollbar {
-       display: none !important;
-   }
-   .mobile-swipe-grid {
-       display: flex !important;
-       flex-wrap: nowrap !important;
-       grid-template-columns: none !important;
-       width: max-content !important;
-       min-width: max-content !important;
-       gap: 16px !important;
-   }
-   .mobile-swipe-card {
-       flex: 0 0 280px !important;
-       min-width: 280px !important;
-       max-width: 280px !important;
-   }
-   .showcase-arrow {
-       display: none !important;
-   }
-}
