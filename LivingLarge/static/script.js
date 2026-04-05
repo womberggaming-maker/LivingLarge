@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
     const loader = document.getElementById("ai-loading");
-    const results = document.querySelectorAll(".showcase-wrapper");
+    const results = document.querySelector(".showcase-wrapper");
 
     if (loader && results){
         results.style.display = "none";
