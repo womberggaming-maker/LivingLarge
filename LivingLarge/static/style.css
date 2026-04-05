@@ -121,9 +121,9 @@
             align-items: center;
         }
         .hero-content {
-            max-width: 1280px;
+            max-width: 620px;
             width: 100%;
-            margin: 0 auto;
+            margin: 0;
             padding-left: 80px;
             color: white;
             text-align: left;
