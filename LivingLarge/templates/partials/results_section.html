@@ -2,11 +2,11 @@
 <div class="results-container">
 <h2 class="results-title">Match med dine ønsker</h2>
 <div class="showcase-wrapper">
-<button class="showcase-arrow left-arrow" type="button">&#10094;</button>
-<div class="showcase-board">
-<div class="showcase-grid">
+<button class="showcase-arrow left-arrow" type="button" style="display:none;">&#10094;</button>
+<div class="showcase-board" style="width:100%; max-width:100%; overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; touch-action:pan-x;">
+<div class="showcase-grid" style="display:flex; flex-wrap:nowrap; gap:16px; width:max-content; min-width:max-content; padding:0 16px 12px 16px;">
                    {% for home in results[:3] %}
-<div class="showcase-card {% if loop.index == 2 %}featured{% else %}side{% endif %}">
+<div class="showcase-card {% if loop.index == 2 %}featured{% else %}side{% endif %}" style="flex:0 0 280px; min-width:280px; max-width:280px;">
 <div class="showcase-image-wrap">
 <img src="{{ url_for('static', filename=home.image) }}" alt="Bolig">
 <div class="match-badge">
@@ -32,7 +32,8 @@
                    {% endfor %}
 </div>
 </div>
-<button class="showcase-arrow right-arrow" type="button">&#10095;</button>
+<button class="showcase-arrow right-arrow" type="button" style="display:none;">&#10095;</button>
+ 
 </div>
 </div>
 </div>
