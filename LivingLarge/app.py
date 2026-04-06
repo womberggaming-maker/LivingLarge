@@ -21,6 +21,23 @@ def default_profile():
        "wants_investment": False,
    }
 
+def has_active_preferences(profile: dict) -> bool:
+   if not profile:
+       return False
+   return any([
+       bool(profile.get("city")),
+       profile.get("budget") is not None,
+       profile.get("min_size") is not None,
+       profile.get("rooms") is not None,
+       profile.get("wants_shopping", False),
+       profile.get("wants_garage", False),
+       profile.get("wants_garden", False),
+       profile.get("wants_forest", False),
+       profile.get("wants_commute", False),
+       profile.get("wants_family", False),
+       profile.get("wants_investment", False),
+   ])
+
 def parse_dream_home(text):
    text = text.lower()
    profile = default_profile()
@@ -472,7 +489,7 @@ def home():
    explanation = ""
    no_results_message = ""
    used_fallback = False
-   user = session.get("user_profile", default_profile())
+   user = session.get("user_profile")
    dream_text = session.get("last_dream_home", "")
    if request.method == "POST":
        dream_text = request.form.get("dream_home", "").strip()
@@ -494,11 +511,24 @@ def home():
        session["user_profile"] = user
        session["last_dream_home"] = dream_text
        return redirect(url_for("home", _anchor="results-section"))
-   if user:
+   
+   should_show_results = False
+   
+   if user and has_active_preferences(user):
+       should_show_results = True
+   elif dream_text.strip():
+       should_show_results = True
+   
+   if should_show_results:
        results, used_fallback = get_matches(user, homes)
-       if user and not results:
+       if not results:
            no_results_message = "Vi fandt desværre ingen boliger, der matcher præcist. Prøv at hæv dit budget lidt, vælg et andet område, eller juster på dine krav."
        explanation = get_top_matches_explanation(user, results)
+   else:
+       results = []
+       explanation = ""
+       no_results_message = ""
+       used_fallback = False
    return render_template(
        "index.html",
        results=results,

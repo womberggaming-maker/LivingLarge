@@ -1,31 +1,31 @@
 <section id="search-section" class="ai-search-section">
 <div class="ai-search-shell">
 <div class="search-header">
-<h2>Beskriv dit drømme hjem, så finder vores ai det til dig.</h2>
+<h2>Beskriv dit drømmehjem — så finder vores AI de bedste matches</h2>
 <p>
-       Beskriv med dine egne ord, hvad du leder efter – fx by, budget, have,
-       garage, natur, børneværelser eller kort pendling.
+               Skriv med dine egne ord hvad du leder efter — fx by, budget, have,
+               garage, natur, børneværelser eller kort pendling.
 </p>
 </div>
 <div class="ai-search-card">
 <form action="/" method="POST">
 <div class="ai-search-box">
 <input
-           type="text"
-           name="dream_home"
-           id="dream_home-input"
-           class="ai-search-input"
-           value="{{ dream_text if dream_text else ''}}"
-           placeholder='F.eks.: "Villa i Vejle, tæt på skole og indkøb, 3 børneværelser, have, garage..."'
+                       type="text"
+                       name="dream_home"
+                       id="dream_home-input"
+                       class="ai-search-input"
+                       value="{{ dream_text if dream_text else '' }}"
+                       placeholder='F.eks.: "Villa i Vejle, tæt på skole og indkøb, 3 børneværelser, have, garage..."'
 >
 <button type="submit" class="ai-search-submit">Find matches</button>
 </div>
 <button type="button" class="toggle-filters-btn" onclick="toggleFilters()">
-         Åbn filtre muligheder
+                   Flere filtre
 </button>
 <div id="filters-panel" class="filters-panel">
 <div class="search-card-inner">
-<h3 class="filter-title">Vælg dine ønsker</h3>
+<h3 class="filter-title">Tilpas din søgning</h3>
 <div class="checkbox-group">
 <label class="feature-pill">
 <input type="checkbox" name="wants_garage" {% if user and user.wants_garage %}checked{% endif %}>
@@ -51,19 +51,27 @@
 <input type="checkbox" name="wants_investment" {% if user and user.wants_investment %}checked{% endif %}>
 <span>God investering</span>
 </label>
+<label class="feature-pill">
+<input type="checkbox" name="wants_shopping" {% if user and user.wants_shopping %}checked{% endif %}>
+<span>Tæt på indkøb</span>
+</label>
 </div>
 <div class="search-grid">
 <div class="form-field">
-<label>By:</label>
+<label>By</label>
 <input type="text" name="city" value="{{ user.city if user else '' }}">
 </div>
 <div class="form-field">
-<label>Budget:</label>
+<label>Budget</label>
 <input type="number" name="budget" value="{{ user.budget if user else '' }}">
 </div>
-<div class="form-field full">
-<label>Minimum størrelse (m²):</label>
+<div class="form-field">
+<label>Minimum størrelse (m²)</label>
 <input type="number" name="min_size" value="{{ user.min_size if user else '' }}">
+</div>
+<div class="form-field">
+<label>Minimum antal værelser</label>
+<input type="number" name="rooms" value="{{ user.rooms if user else '' }}">
 </div>
 </div>
 </div>
