@@ -48,20 +48,18 @@
    position: absolute;
    top: 20px;
    left: 20px;
-   z-index: 3;
    width: 92px;
    height: 92px;
    border-radius: 50%;
-   background: #2563eb;
+   background: linear-gradient(135deg, #2563eb, #1d4ed8);
    color: #ffffff;
    display: flex;
    align-items: center;
    justify-content: center;
    text-align: center;
-   font-weight: 700;
-   font-size: 14px;
-   line-height: 1.1;
-   box-shadow: 0 12px 26px rgba(37, 99, 235, 0.25);
+   font-weight: 800;
+   font-size: 15px;
+   box-shadow: 0 18px 40px rgba(37, 99, 235, 0.35);
 }
 .property-content {
    padding: 30px;
@@ -76,15 +74,25 @@
 }
 .analysis-box {
    position: relative;
-   background: #f7fbff;
+   background: linear-gradient(180deg, #f7fbff, #ffffff);
    border: 1px solid #e3edf9;
-   border-left: 5px solid #4f7db8;
+   border-left: 6px solid #2563eb;
    border-radius: 16px;
-   padding: 20px;
-   margin: 0 0 22px;
+   padding: 22px;
+   margin-bottom: 24px;
+   box-shadow: 0 8px 24px rgba(79, 125, 184, 0.08);
 }
 .analysis-box strong {
    color: #1d3557;
+   display: block;
+   margin-bottom: 6px;
+   font-size: 16px;
+}
+.analysis-box p {
+  margin-top: 6px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #334155;
 }
 .analysis-box::after {
   content: "x";
@@ -98,6 +106,7 @@
    background: transparent;
    padding: 0;
    margin: 0;
+   margin-top: 10px;
 }
 .match-breakdown h3 {
    margin: 0 0 14px;
@@ -108,7 +117,7 @@
    display: flex;
    justify-content: space-between;
    align-items: center;
-   padding: 12px 14px;
+   padding: 14px 16px;
    border-radius: 12px;
    margin-bottom: 8px;
    border: 1px solid #e8edf4;
@@ -136,8 +145,8 @@
 }
 .match-row.bad span:last-child {
    color: #dc2626;
-   font-weight: 700;
-   font-size: 18px;
+   font-weight: 800;
+   font-size: 15px;
 }
 .match-tags {
    margin: 18px 0 0;
@@ -279,6 +288,17 @@
    transform: translateY(-1px);
    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.18);
 }
+.limitations-list {
+  margin: 10px 0 0 0;
+  padding-left: 0;
+  list-style: none;
+}
+.limitations-list li {
+  margin-bottom: 8px;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.5;
+}
 @media (max-width: 1100px) {
    .property-layout {
        grid-template-columns: 1fr;
@@ -331,7 +351,12 @@
 <div class="property-layout">
 <div class="property-main">
 
+<div class="property-image-wrap">
 <img src="{{ url_for('static', filename=home.image) }}" alt="Boligbillede" class="property-image">
+<div class="match-score">
+       {{ match_score }}%<br>MATCH
+</div>
+</div>
 <div class="property-content">
 <h1>{{ home.title }}</h1>
 <div class="analysis-box">
@@ -358,7 +383,7 @@
 </div>
 {% endif %}
 
-    {% if user_profile.wants_garage %}
+    {% if user_profile.get("wants_garage") %}
 <div class="match-row {{ 'good' if home.garage else 'bad' }}">
 <span>Garage</span>
 <span>{{ "✓" if home.garage else "✕" }}</span>
@@ -366,7 +391,7 @@
 
     {% endif %}
 
-    {% if user_profile.wants_garden %}
+    {% if user_profile.get("wants_garden") %}
 <div class="match-row {{ 'good' if home.garden else 'bad' }}">
 <span>Have</span>
 <span>{{ "✓" if home.garden else "✕" }}</span>
@@ -374,7 +399,7 @@
 
     {% endif %}
 
-    {% if user_profile.wants_forest %}
+    {% if user_profile.get("wants_forest") %}
 <div class="match-row {{ 'good' if home.forest_nearby else 'bad' }}">
 <span>Tæt på skov</span>
 <span>{{ "✓" if home.forest_nearby else "✕" }}</span>
@@ -382,7 +407,7 @@
 
     {% endif %}
 
-    {% if user_profile.wants_family %}
+    {% if user_profile.get("wants_family") %}
 <div class="match-row {{ 'good' if home.family_score >= 7 else 'bad' }}">
 <span>Familievenligt</span>
 <span>{{ "✓" if home.family_score >= 7 else "✕" }}</span>
@@ -390,7 +415,7 @@
 
     {% endif %}
 
-    {% if user_profile.wants_commute %}
+    {% if user_profile.get("wants_commute") %}
 <div class="match-row {{ 'good' if home.commute_score >= 7 else 'bad' }}">
 <span>Kort pendling</span>
 <span>{{ "✓" if home.commute_score >= 7 else "✕" }}</span>
@@ -398,7 +423,7 @@
 
     {% endif %}
 
-    {% if user_profile.wants_investment %}
+    {% if user_profile.get("wants_investment") %}
 <div class="match-row {{ 'good' if home.investment_score >= 7 else 'bad' }}">
 <span>God investering</span>
 <span>{{ "✓" if home.investment_score >= 7 else "✕" }}</span>
@@ -423,10 +448,10 @@
 </p>
          {% if home.limitations %}
 <h3>Hvorfor matcher boligen ikke bedre?</h3>
-<ul>
-           {% for reason in home.limitations %}
-<li>{{ reason }}</li>
-           {% endfor %}
+<ul> class="limitations-list">
+          {% for reason in home.limitations %}
+<li>⚠️ {{ reason }}</li>
+          {% endfor %}
 </ul>
          {% endif %}
 </div>
@@ -436,7 +461,7 @@
 <div class="property-specs">
 <h3>Specifikationer</h3>
 <p><strong>By:</strong> {{ home.city }}</p>
-<p><strong>Pris:</strong> {{ home.price }} kr</p>
+<p><strong>Pris:</strong> {{ format_price(home.price) }} kr</p>
 <p><strong>Størrelse:</strong> {{ home.size }} m²</p>
 <p><strong>Garage:</strong> {{ "Ja" if home.garage else "Nej" }}</p>
 <p><strong>Have:</strong> {{ "Ja" if home.garden else "Nej" }}</p>

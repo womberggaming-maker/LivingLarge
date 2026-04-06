@@ -10,7 +10,8 @@
 <div class="showcase-image-wrap">
 <img src="{{ url_for('static', filename=home.image) }}" alt="Bolig">
 <div class="match-badge">
-                               {{ home.match_score }}%<br>MATCH
+       <span class="score">{{ home.match_score }}%</span>
+       <span class="label">MATCH</span>
 </div>
 </div>
 <a href="/toggle_favorite/{{ home.id }}" class="favorite-btn">
@@ -23,13 +24,19 @@
 <div class="showcase-body">
 <h3>{{ home.title }}</h3>
 <div class="ai-insight">
-                               {{ home.match_summary }}
+       <strong>AI vudering:</strong>
+       <p>{{ home.match_summary }}</p>
+</div>
+<div class="match-tags">
+ {% for tag in home.match_reasons[:3] %}
+<span class="match-tag">{{ tag }}</span>
+ {% endfor %}
 </div>
 <div class="home-info">
-                               {{ home.size }} m² |
-                               {{ home.rooms if home.rooms else "?" }} værelser |
-                               Energimærke: {{ home.energy if home.energy else "?" }} |
-                               {{ format_price(home.price) }} kr
+       <span>{{ home.size }} m²</span>
+       <span>{{ home.rooms or "-" }} værelser</span>
+       <span>Energi: {{ home.energy or "-" }}</span>
+       <span class="price">{{ format_price(home.price) }} kr</span>
 </div>
 <a href="/bolig/{{ home.id }}" class="details-button">
                                SE DETALJER
