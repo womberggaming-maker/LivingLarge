@@ -20,9 +20,15 @@
 >
 <button type="submit" class="ai-search-submit">Find matches</button>
 </div>
+<div class="search-actions-row">
 <button type="button" class="toggle-filters-btn" onclick="toggleFilters()">
                    Flere filtre
 </button>
+
+       {% if user %}
+       <a href="/reset" class="reset-search-link">Start forfra</a>
+       {% endif %}
+</div>
 <div id="filters-panel" class="filters-panel">
 <div class="search-card-inner">
 <h3 class="filter-title">Tilpas din søgning</h3>

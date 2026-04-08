@@ -1,4 +1,4 @@
-{% if results %}
+{% if results and results|length > 0 %}
 <div id="results-section" class="results-section">
 <div class="results-container">
 <h2 class="results-title">Match med dine ønsker</h2>
@@ -6,38 +6,57 @@
 <button class="showcase-arrow left-arrow" type="button">&#10094;</button>
 <div class="showcase-board">
 <div class="showcase-grid">
+                   {% set best_score = results[0].match_score if results else 0 %}
                    {% for home in results[:3] %}
-<div class="showcase-card {% if loop.index == 2 %}featured{% else %}side{% endif %}">
+<div class="showcase-card {% if loop.index == 2 %}featured{% else %}side{% endif %} {% if loop.index == 1 %}top-match-card{% endif %}">
+                   {% if home.match_score >= 60 and home.match_score == best_score and loop.first %}
+<div class="top-match-ribbon">Bedste match</div>
+{% endif %}
 <div class="showcase-image-wrap">
-<img src="{{ url_for('static', filename=home.image) }}" alt="Bolig">
-<div class="match-badge">
-       <span class="score">{{ home.match_score }}%</span>
-       <span class="label">MATCH</span>
+<img src="{{ url_for('static', filename=home.image) }}" alt="{{ home.title }}">
+<div class="match-badge
+                               {% if home.match_score >= 90 %}
+                                   score-excellent
+                               {% elif home.match_score >= 70 %}
+                                   score-good
+                               {% elif home.match_score >= 50 %}
+                                   score-medium
+                               {% else %}
+                                   score-low
+                               {% endif %}
+                           ">
+<span class="score">{{ home.match_score }}%</span>
+<span class="label">MATCH</span>
 </div>
+                           {% if loop.index == 1 %}
+<div class="top-match-ribbon">Bedste match</div>
+                           {% endif %}
 </div>
 <a href="/toggle_favorite/{{ home.id }}" class="favorite-btn">
-   {% if home.id in favorites %}
-       ❤️
-   {% else %}
-       🤍
-   {% endif %}
+                           {% if home.id in favorites %}
+                               ❤️
+                           {% else %}
+                               🤍
+                           {% endif %}
 </a>
 <div class="showcase-body">
 <h3>{{ home.title }}</h3>
 <div class="ai-insight">
-       <strong>AI vudering:</strong>
-       <p>{{ home.match_summary }}</p>
+<strong>AI-vurdering</strong>
+<p>{{ home.match_summary }}</p>
 </div>
+                           {% if home.match_reasons %}
 <div class="match-tags">
- {% for tag in home.match_reasons[:3] %}
+                               {% for tag in home.match_reasons[:3] %}
 <span class="match-tag">{{ tag }}</span>
- {% endfor %}
+                               {% endfor %}
 </div>
+                           {% endif %}
 <div class="home-info">
-       <span>{{ home.size }} m²</span>
-       <span>{{ home.rooms or "-" }} værelser</span>
-       <span>Energi: {{ home.energy or "-" }}</span>
-       <span class="price">{{ format_price(home.price) }} kr</span>
+<span>{{ home.size }} m²</span>
+<span>{{ home.rooms or "-" }} værelser</span>
+<span>Energi: {{ home.energy or "-" }}</span>
+<span class="price">{{ format_price(home.price) }} kr</span>
 </div>
 <a href="/bolig/{{ home.id }}" class="details-button">
                                SE DETALJER

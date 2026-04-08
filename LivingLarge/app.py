@@ -1,3 +1,4 @@
+import re
 from flask import Flask, render_template, request, abort, session, redirect, url_for
 from homes import homes 
 import random 
@@ -68,12 +69,21 @@ def parse_dream_home(text):
    elif "skagen" in text:
        profile["city"] = "Skagen"
    # Budget
-   if "3 mio" in text or "3000000" in text:
-       profile["budget"] = 3000000
-   if "2 mio" in text or "2000000" in text:
-       profile["budget"] = 2000000
-   if "4 mio" in text or "4000000" in text:
-       profile["budget"] = 4000000
+   budget_match = re.search(r'(\d{6,7})', text)
+   if budget_match:
+        profile["budget"] = int(budget_match.group(1))
+   elif "2 mio" in text:
+        profile["budget"] = 2000000
+   elif "2.5 mio" in text or "2500000" in text:
+        profile["budget"] = 2500000
+   elif "2,5 mio" in text:
+        profile["budget"] = 2500000
+   elif "3 mio" in text:
+        profile["budget"] = 3000000
+   elif "3,5 mio" in text:
+        profile["budget"] = 3500000
+   elif "4 mio" in text:
+        profile["budget"] = 4000000
    # Størrelse
    if "stor" in text or "150" in text:
        profile["min_size"] = 150
@@ -98,6 +108,7 @@ def parse_dream_home(text):
        profile["wants_investment"] = True
    if "indkøb" in text or "butik" in text or "supermarked" in text:
        profile["wants_shopping"] = True
+       print("PARSED USER:", profile)
    return profile
 
 def format_price(price):
@@ -107,139 +118,237 @@ app.jinja_env.globals.update(format_price=format_price)
 def calculate_match(user_profile: dict, home: dict) -> int:
    score = 0
    max_score = 0
-   if user_profile["city"]:
+   # Kritiske kriterier
+   city = (user_profile.get("city") or "").strip().lower()
+   budget = user_profile.get("budget")
+   min_size = user_profile.get("min_size")
+   rooms = user_profile.get("rooms")
+   home_city = (home.get("city") or "").strip().lower()
+   home_price = home.get("price", 0)
+   home_size = home.get("size", 0)
+   home_rooms = home.get("rooms", 0)
+   # BY - meget vigtig
+   if city:
+       max_score += 35
+       if home_city == city:
+           score += 35
+       else:
+           score -= 25
+   # BUDGET - meget vigtig
+   if budget is not None:
        max_score += 30
-       if home["city"].lower() == user_profile["city"].lower():
+       if home_price <= budget:
            score += 30
-   if user_profile["budget"] is not None:
-       max_score += 20
-       if home["price"] <= user_profile["budget"]:
-           score += 20
-       elif home["price"] <= user_profile["budget"] * 1.1:
-           score += 12
-       elif home["price"] <= user_profile["budget"] * 1.2:
+       elif home_price <= budget * 1.05:
+           score += 15
+       elif home_price <= budget * 1.10:
            score += 6
-   if user_profile["min_size"] is not None:
+       else:
+           score -= 22
+   # STØRRELSE
+   if min_size is not None:
        max_score += 15
-       if home["size"] >= user_profile["min_size"]:
+       if home_size >= min_size:
            score += 15
-       elif home["size"] >= user_profile["min_size"] * 0.9:
-           score += 8
-   if user_profile.get("rooms") is not None:
-       max_score += 15
-       if home.get("rooms", 0) >= user_profile["rooms"]:
-           score += 15
-       elif home.get("rooms", 0) == user_profile["rooms"] - 1:
-           score += 8
-   if user_profile.get("wants_shopping", False):
-       max_score += 8
-       if home.get("near_shopping"):
-           score += 8
-   if user_profile.get("wants_garage"):
-       max_score += 8
-       if home["garage"]:
-           score += 8
-   if user_profile.get("wants_garden"):
-       max_score += 8
-       if home["garden"]:
-           score += 8
-   if user_profile.get("wants_forest"):
-       max_score += 8
-       if home["forest_nearby"]:
-           score += 8
-   if user_profile.get("wants_commute"):
-       max_score += 7
-       if home["commute_score"] >= 7:
+       elif home_size >= min_size * 0.9:
            score += 7
-   if user_profile.get("wants_family"):
-       max_score += 6
-       if home["family_score"] >= 7:
-           score += 6
-   if user_profile.get("wants_investment"):
-       max_score += 5
-       if home["investment_score"] >= 7:
+       else:
+           score -= 6
+   # VÆRELSER
+   if rooms is not None:
+       max_score += 12
+       if home_rooms >= rooms:
+           score += 12
+       elif home_rooms == rooms - 1:
            score += 5
+       else:
+           score -= 5
+   # BLØDE ØNSKER
+   preference_rules = [
+       ("wants_shopping", "near_shopping", 5),
+       ("wants_garage", "garage", 8),
+       ("wants_garden", "garden", 7),
+       ("wants_forest", "forest_nearby", 7),
+   ]
+   for user_key, home_key, weight in preference_rules:
+       if user_profile.get(user_key, False):
+           max_score += weight
+           if home.get(home_key):
+               score += weight
+           else:
+               score -= max(2, weight // 2)
+   # SCORING VIA TAL
+   if user_profile.get("wants_commute", False):
+       max_score += 6
+       commute_score = home.get("commute_score", 0)
+       if commute_score >= 8:
+           score += 6
+       elif commute_score >= 6:
+           score += 3
+       else:
+           score -= 3
+   if user_profile.get("wants_family", False):
+       max_score += 6
+       family_score = home.get("family_score", 0)
+       if family_score >= 8:
+           score += 6
+       elif family_score >= 6:
+           score += 3
+       else:
+           score -= 3
+   if user_profile.get("wants_investment", False):
+       max_score += 6
+       investment_score = home.get("investment_score", 0)
+       if investment_score >= 8:
+           score += 6
+       elif investment_score >= 6:
+           score += 3
+       else:
+           score -= 3
    if max_score == 0:
        return 0
+   # Normaliser
    final_score = round((score / max_score) * 100)
-   if score / max_score > 0.8:
-        final_score += 3
-   if final_score < 5:
-        final_score = 5
-   if final_score > 95:
-        final_score = 95
+   # Ekstra straf hvis både by er forkert og pris er over budget
+   if city and home_city != city and budget is not None and home_price > budget:
+       final_score -= 10
+   # Clamp
+   final_score = max(0, min(final_score, 95))
    return final_score
 
 def get_match_reasons(user_profile: dict, home: dict) -> list:
    reasons = []
-   if user_profile["city"] and home["city"].lower() == user_profile["city"].lower():
+   city = (user_profile.get("city") or "").strip().lower()
+   budget = user_profile.get("budget")
+   min_size = user_profile.get("min_size")
+   rooms = user_profile.get("rooms")
+   home_city = (home.get("city") or "").strip().lower()
+   home_price = home.get("price", 0)
+   home_size = home.get("size", 0)
+   home_rooms = home.get("rooms", 0)
+   if city and home_city == city:
        reasons.append("Rigtig by")
-   if user_profile["budget"] is not None:
-       if home["price"] <= user_profile["budget"]:
+   if budget is not None:
+       if home_price <= budget:
            reasons.append("Inden for budget")
-       elif home["price"] <= user_profile["budget"] * 1.1:
-           reasons.append("Tæt på budget")
-   if user_profile["min_size"] is not None:
-       if home["size"] >= user_profile["min_size"]:
+       elif home_price <= budget * 1.05:
+           reasons.append("Lidt over budget")
+   if min_size is not None:
+       if home_size >= min_size:
            reasons.append("Stor nok")
-       elif home["size"] >= user_profile["min_size"] * 0.9:
+       elif home_size >= min_size * 0.9:
            reasons.append("Næsten stor nok")
-   if user_profile.get("rooms") is not None:
-       if home.get("rooms", 0) >= user_profile["rooms"]:
-           reasons.append("Nok værelser")        
-   if user_profile["wants_garage"] and home["garage"]:
+   if rooms is not None:
+       if home_rooms >= rooms:
+           reasons.append("Nok værelser")
+       elif home_rooms == rooms - 1:
+           reasons.append("Tæt på ønsket antal værelser")
+   if user_profile.get("wants_garage") and home.get("garage"):
        reasons.append("Garage")
-   if user_profile["wants_garden"] and home["garden"]:
+   if user_profile.get("wants_garden") and home.get("garden"):
        reasons.append("Have")
-   if user_profile["wants_forest"] and home["forest_nearby"]:
+   if user_profile.get("wants_forest") and home.get("forest_nearby"):
        reasons.append("Tæt på natur")
-   if user_profile["wants_commute"] and home["commute_score"] >= 7:
-       reasons.append("Kort pendling")
-   if user_profile["wants_family"] and home["family_score"] >= 7:
-       reasons.append("Familievenligt")
-   if user_profile["wants_investment"] and home["investment_score"] >= 7:
-       reasons.append("God investering")
-   if user_profile.get("wants_shopping", False) and home.get("near_shopping"):
+   if user_profile.get("wants_shopping") and home.get("near_shopping"):
        reasons.append("Tæt på indkøb")
+   if user_profile.get("wants_commute") and home.get("commute_score", 0) >= 7:
+       reasons.append("God pendling")
+   if user_profile.get("wants_family") and home.get("family_score", 0) >= 7:
+       reasons.append("Familievenligt")
+   if user_profile.get("wants_investment") and home.get("investment_score", 0) >= 7:
+       reasons.append("God investering")
    return reasons
 
-def get_match_summary(user_profile, home):
+def get_match_summary(user_profile: dict, home: dict) -> str:
    positives = []
    negatives = []
-   # POSITIVE MATCHES
-   if user_profile["city"] and home["city"].lower() == user_profile["city"].lower():
+   city = (user_profile.get("city") or "").strip().lower()
+   budget = user_profile.get("budget")
+   min_size = user_profile.get("min_size")
+   rooms = user_profile.get("rooms")
+   home_city = (home.get("city") or "").strip().lower()
+   home_price = home.get("price", 0)
+   home_size = home.get("size", 0)
+   home_rooms = home.get("rooms", 0)
+   # Positive signaler
+   if city and home_city == city:
        positives.append("ligger i din ønskede by")
-   if user_profile["budget"] is not None:
-       if home["price"] <= user_profile["budget"]:
+   elif city and home_city != city:
+       negatives.append("ligger ikke i din ønskede by")
+   if budget is not None:
+       if home_price <= budget:
            positives.append("holder sig inden for budget")
-       elif home["price"] > user_profile["budget"] * 1.1:
-           negatives.append("ligger over budget")
-   if user_profile["min_size"] is not None:
-       if home["size"] >= user_profile["min_size"]:
+       elif home_price <= budget * 1.05:
+           positives.append("kun ligger lidt over budget")
+       else:
+           negatives.append("ligger tydeligt over budget")
+   if min_size is not None:
+       if home_size >= min_size:
            positives.append("har den ønskede størrelse")
        else:
            negatives.append("er mindre end ønsket")
-   if user_profile.get("rooms") is not None:
-       if home.get("rooms", 0) >= user_profile["rooms"]:
-           positives.append("har nok værelser")        
-   if user_profile["wants_garden"] and home["garden"]:
-       positives.append("har en have")
-   if user_profile["wants_garage"] and home["garage"]:
-       positives.append("har garage")
-   if user_profile["wants_forest"] and home["forest_nearby"]:
-       positives.append("ligger tæt på naturen")
-   if user_profile["wants_commute"] and home["commute_score"] >= 7:
-       positives.append("har god pendlerafstand")
-   if user_profile.get("wants_shopping", False) and home.get("near_shopping"):
-       positives.append("er tæt på indkøb")
-   # GENERÉR TEKST
+   if rooms is not None:
+       if home_rooms >= rooms:
+           positives.append("har nok værelser")
+       elif home_rooms < rooms:
+           negatives.append("har færre værelser end ønsket")
+   if user_profile.get("wants_garage"):
+       if home.get("garage"):
+           positives.append("har garage")
+       else:
+           negatives.append("mangler garage")
+   if user_profile.get("wants_garden"):
+       if home.get("garden"):
+           positives.append("har have")
+       else:
+           negatives.append("mangler have")
+   if user_profile.get("wants_forest"):
+       if home.get("forest_nearby"):
+           positives.append("ligger tæt på naturen")
+       else:
+           negatives.append("ikke ligger tæt på naturen")
+   if user_profile.get("wants_shopping"):
+       if home.get("near_shopping"):
+           positives.append("er tæt på indkøb")
+       else:
+           negatives.append("ikke er tæt på indkøb")
+   if user_profile.get("wants_commute"):
+       if home.get("commute_score", 0) >= 7:
+           positives.append("har god pendling")
+       else:
+           negatives.append("har mindre god pendling")
+   if user_profile.get("wants_family"):
+       if home.get("family_score", 0) >= 7:
+           positives.append("passer godt til familieliv")
+       else:
+           negatives.append("ikke er det stærkeste familie-match")
+   if user_profile.get("wants_investment"):
+       if home.get("investment_score", 0) >= 7:
+           positives.append("har investeringspotentiale")
+       else:
+           negatives.append("ikke scorer højt som investering")
+   # Byg tekst
+   if positives and negatives:
+       return (
+           "Boligen matcher delvist dine ønsker, fordi den "
+           + " og ".join(positives[:2])
+           + ", men den "
+           + negatives[0]
+           + "."
+       )
    if positives:
-           text = "Boligen matcher godt dine ønsker, fordi den " + " og ".join(positives[:2])
-   else:
-       text = "Boligen matcher delvist dine ønsker"
+       return (
+           "Boligen matcher godt dine ønsker, fordi den "
+           + " og ".join(positives[:2])
+           + "."
+       )
    if negatives:
-       text += ", men " + ", ".join(negatives[:1])
-   return text + "."
+       return (
+           "Boligen matcher kun i begrænset grad dine ønsker, fordi den "
+           + negatives[0]
+           + "."
+       )
+   return "Boligen matcher delvist din profil."
 
 def get_match_improvement(user_profile, home):
    issues = []
@@ -265,21 +374,53 @@ def get_lifestyle_comment(home):
        return ""
    return "Fremtidsperspektiv: " + ", ".join(comments) + "."
 
-def get_match_limitations(user_profile, home):
+def get_match_limitations(user_profile: dict, home: dict) -> list:
    reasons = []
-   if user_profile["budget"] is not None and home["price"] > user_profile["budget"]:
-       reasons.append("Boligen ligger over dit budget")
-   if user_profile["min_size"] is not None and home["size"] < user_profile["min_size"]:
+   city = (user_profile.get("city") or "").strip().lower()
+   budget = user_profile.get("budget")
+   min_size = user_profile.get("min_size")
+   rooms = user_profile.get("rooms")
+   home_city = (home.get("city") or "").strip().lower()
+   home_price = home.get("price", 0)
+   home_size = home.get("size", 0)
+   home_rooms = home.get("rooms", 0)
+   if city and home_city != city:
+       reasons.append("Boligen ligger ikke i din ønskede by")
+   if budget is not None and home_price > budget:
+       if home_price <= budget * 1.05:
+           reasons.append("Boligen ligger lidt over dit budget")
+       else:
+           reasons.append("Boligen ligger tydeligt over dit budget")
+   if min_size is not None and home_size < min_size:
        reasons.append("Boligen er mindre end ønsket")
-   if user_profile["wants_garage"] and not home["garage"]:
+   if rooms is not None and home_rooms < rooms:
+       reasons.append("Boligen har færre værelser end ønsket")
+   if user_profile.get("wants_garage") and not home.get("garage"):
        reasons.append("Boligen har ikke garage")
-   if user_profile["wants_garden"] and not home["garden"]:
+   if user_profile.get("wants_garden") and not home.get("garden"):
        reasons.append("Boligen har ikke have")
-   if user_profile["wants_forest"] and not home["forest_nearby"]:
-       reasons.append("Boligen ligger ikke tæt på skov")
-   if user_profile.get("wants_shopping", False) and not home.get("near_shopping"):
+   if user_profile.get("wants_forest") and not home.get("forest_nearby"):
+       reasons.append("Boligen ligger ikke tæt på natur")
+   if user_profile.get("wants_shopping") and not home.get("near_shopping"):
        reasons.append("Boligen ligger ikke tæt på indkøb")
+   if user_profile.get("wants_commute") and home.get("commute_score", 0) < 7:
+       reasons.append("Pendlingen er ikke optimal")
+   if user_profile.get("wants_family") and home.get("family_score", 0) < 7:
+       reasons.append("Boligen scorer ikke højt på familievenlighed")
+   if user_profile.get("wants_investment") and home.get("investment_score", 0) < 7:
+       reasons.append("Boligen scorer ikke højt som investering")
    return reasons
+
+def get_match_label(match_score: int) -> str:
+   if match_score >= 80:
+       return "Perfekt match"
+   elif match_score >= 65:
+       return "Godt match"
+   elif match_score >= 45:
+       return "Relevant match"
+   elif match_score >= 25:
+       return "Muligt match"
+   return "Svagt match"
 
 def get_match_count(user_profile: dict, home: dict):
    total = 0
@@ -384,102 +525,77 @@ def get_top_matches_explanation(user_profile, matches):
 def enrich_home_for_user(user_profile: dict, home: dict) -> dict:
    home_with_score = home.copy()
    match_score = calculate_match(user_profile, home)
-   home_with_score["match_score"] = match_score
-   if match_score >= 75:
-       match_label = "Perfekt match"
-   elif match_score >= 55:
-       match_label = "Godt match"
-   elif match_score >= 35:
-       match_label = "Okay match"
-   else:
-       match_label = "Svagt match"
-   home_with_score["match_label"] = match_label
-   match_details = []
-   if user_profile.get("city"):
-       if home["city"].lower() == user_profile["city"].lower():
-           match_details.append("✓ Rigtig by")
-       else:
-           match_details.append("✕ Forkert by")
-   if user_profile.get("budget") is not None:
-       if home["price"] <= user_profile["budget"]:
-           match_details.append("✓ Inden for budget")
-       elif home["price"] <= user_profile["budget"] * 1.1:
-           match_details.append("~ Tæt på budget")
-       else:
-           match_details.append("✕ Over budget")
-   if user_profile.get("min_size") is not None:
-       if home["size"] >= user_profile["min_size"]:
-           match_details.append("✓ Stor nok")
-       elif home["size"] >= user_profile["min_size"] * 0.9:
-           match_details.append("~ Næsten stor nok")
-       else:
-           match_details.append("✕ For lille")
-   if user_profile.get("rooms") is not None:
-       if home.get("rooms", 0) >= user_profile["rooms"]:
-           match_details.append("✓ Nok værelser")
-       elif home.get("rooms", 0) == user_profile["rooms"] - 1:
-           match_details.append("~ Næsten nok værelser")
-       else:
-           match_details.append("✕ For få værelser")
-   if user_profile.get("wants_garage"):
-       match_details.append("✓ Garage" if home.get("garage") else "✕ Ingen garage")
-   if user_profile.get("wants_garden"):
-       match_details.append("✓ Have" if home.get("garden") else "✕ Ingen have")
-   if user_profile.get("wants_forest"):
-       match_details.append("✓ Tæt på natur" if home.get("forest_nearby") else "✕ Ikke tæt på natur")
-   if user_profile.get("wants_commute"):
-       match_details.append(
-           "✓ Kort pendling" if home.get("commute_score", 0) >= 7 else "✕ Lang pendling"
-       )
-   if user_profile.get("wants_family"):
-       match_details.append(
-           "✓ Familievenligt område" if home.get("family_score", 0) >= 7 else "✕ Ikke familievenligt"
-       )
-   if user_profile.get("wants_investment"):
-       match_details.append(
-           "✓ God investering" if home.get("investment_score", 0) >= 7 else "✕ Svag investering"
-       )
-   if user_profile.get("wants_shopping", False):
-       match_details.append(
-           "✓ Tæt på indkøb" if home.get("near_shopping") else "✕ Ikke tæt på indkøb"
-       )
-   home_with_score["match_details"] = match_details
-   home_with_score["match_reasons"] = get_match_reasons(user_profile, home)
-   home_with_score["match_summary"] = get_match_summary(user_profile, home)
-   home_with_score["limitations"] = get_match_limitations(user_profile, home)
-   home_with_score["match_improvement"] = get_match_improvement(user_profile, home)
-   home_with_score["future_comment"] = get_lifestyle_comment(home)
-   home_with_score["tags"] = get_lifestyle_tags(home)
+   match_reasons = get_match_reasons(user_profile, home)
+   match_summary = get_match_summary(user_profile, home)
+   limitations = get_match_limitations(user_profile, home)
    matched_count, total_count = get_match_count(user_profile, home)
+   home_with_score["match_score"] = match_score
+   home_with_score["match_label"] = get_match_label(match_score)
+   home_with_score["match_reasons"] = match_reasons
+   home_with_score["match_summary"] = match_summary
+   home_with_score["limitations"] = limitations
    home_with_score["matched_count"] = matched_count
    home_with_score["total_count"] = total_count
+   home_with_score["future_comment"] = get_lifestyle_comment(home)
+   home_with_score["tags"] = get_lifestyle_tags(home)
+   # Bruges til mere stabil sortering
    home_with_score["_tie_strength"] = matched_count
-   home_with_score["_tie_random"] = random.uniform(0, 0.35)
+   home_with_score["_price_distance"] = abs((user_profile.get("budget") or home.get("price", 0)) - home.get("price", 0))
    return home_with_score
 
-def get_matches(user_profile: dict, homes_list: list) -> list:
+def has_active_preferences(profile: dict) -> bool:
+   if not profile:
+       return False
+   return any([
+       bool(profile.get("city")),
+       profile.get("budget") is not None,
+       profile.get("min_size") is not None,
+       profile.get("rooms") is not None,
+       profile.get("wants_shopping", False),
+       profile.get("wants_garage", False),
+       profile.get("wants_garden", False),
+       profile.get("wants_forest", False),
+       profile.get("wants_commute", False),
+       profile.get("wants_family", False),
+       profile.get("wants_investment", False),
+   ])
+
+def get_matches(user_profile: dict, homes_list: list) -> tuple[list, bool]:
    matches = []
    low_matches = []
-   minimum_match_score = 25
    used_fallback = False
-   shuffled_homes = homes_list[:]
-   random.shuffle(shuffled_homes)
-   for home in shuffled_homes:
+   for home in homes_list:
        enriched_home = enrich_home_for_user(user_profile, home)
-       if enriched_home["match_score"] < minimum_match_score:
+       match_score = enriched_home["match_score"]
+       if match_score >= 25:
+           matches.append(enriched_home)
+       else:
            low_matches.append(enriched_home)
-           continue
-       matches.append(enriched_home)
+   # Stabil sortering:
+   # 1. højeste score
+   # 2. flest matchede kriterier
+   # 3. mindst afstand til budget
+   # 4. titel som sidste stabile tie-break
    matches.sort(
        key=lambda x: (
            x["match_score"],
-           x["matched_count"],
-           x["_tie_random"],
+           x["_tie_strength"],
+           -x["_price_distance"],
+           x["title"]
        ),
        reverse=True,
    )
    if not matches:
-       matches = sorted(low_matches, key=lambda x: x["match_score"], reverse=True)[:5]
+       low_matches.sort(
+           key=lambda x: (
+               x["match_score"],
+               x["_tie_strength"],
+               -x["_price_distance"],
+               x["title"]
+           ),
+           reverse=True,
+       )
+       matches = low_matches[:5]
        used_fallback = True
    return matches, used_fallback
 
@@ -489,7 +605,7 @@ def home():
    explanation = ""
    no_results_message = ""
    used_fallback = False
-   user = session.get("user_profile")
+   user = session.get("user_profile", default_profile())
    dream_text = session.get("last_dream_home", "")
    if request.method == "POST":
        dream_text = request.form.get("dream_home", "").strip()
@@ -511,24 +627,14 @@ def home():
        session["user_profile"] = user
        session["last_dream_home"] = dream_text
        return redirect(url_for("home", _anchor="results-section"))
-   
-   should_show_results = False
-   
-   if user and has_active_preferences(user):
-       should_show_results = True
-   elif dream_text.strip():
-       should_show_results = True
-   
-   if should_show_results:
+   if has_active_preferences(user):
        results, used_fallback = get_matches(user, homes)
        if not results:
-           no_results_message = "Vi fandt desværre ingen boliger, der matcher præcist. Prøv at hæv dit budget lidt, vælg et andet område, eller juster på dine krav."
+           no_results_message = (
+               "Vi fandt desværre ingen boliger, der matcher præcist. "
+               "Prøv at hæve dit budget lidt, vælge et andet område eller justere dine krav."
+           )
        explanation = get_top_matches_explanation(user, results)
-   else:
-       results = []
-       explanation = ""
-       no_results_message = ""
-       used_fallback = False
    return render_template(
        "index.html",
        results=results,
@@ -539,6 +645,7 @@ def home():
        no_results_message=no_results_message,
        used_fallback=used_fallback,
        dream_text=dream_text,
+       scroll_to_results=has_active_preferences(user),
    )
 
 
@@ -636,7 +743,7 @@ def about():
 @app.route("/reset")
 def reset():
    session.clear()
-   return redirect(url_for("home") + "#top")
+   return redirect(url_for("home") + "#search-section")
 
 if __name__ == "__main__":
    app.run(host="0.0.0.0", port=10000)
