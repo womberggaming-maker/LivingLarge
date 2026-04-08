@@ -651,33 +651,31 @@ def home():
 
 @app.route("/bolig/<int:home_id>")
 def bolig_detaljer(home_id):
-   home = next((h for h in homes if h["id"] == home_id), None)
-   if not home:
+   if home_id < 0 or home_id >= len(homes):
        abort(404)
-   user_profile = session.get("user_profile")
-   if user_profile:
-       enriched_home = enrich_home_for_user(user_profile, home)
-       match_score = enriched_home["match_score"]
-       match_reasons = enriched_home["match_reasons"]
-       match_summary = enriched_home["match_summary"]
-       match_details = enriched_home["match_details"]
-       limitations = enriched_home["limitations"]
+   raw_home = homes[home_id]
+   user_profile = session.get("user_profile", default_profile())
+   if has_active_preferences(user_profile):
+       home = enrich_home_for_user(user_profile, raw_home)
+       match_score = home.get("match_score", 0)
+       match_reasons = home.get("match_reasons", [])
+       match_summary = home.get(
+           "match_summary",
+           "Vælg dine kriterier på forsiden for at se hvorfor boligen matcher."
+       )
    else:
-       enriched_home = home.copy()
+       home = raw_home.copy()
+       home["limitations"] = []
        match_score = 0
        match_reasons = []
        match_summary = "Vælg dine kriterier på forsiden for at se hvorfor boligen matcher."
-       match_details = []
-       limitations = []
    return render_template(
        "details.html",
-       home=enriched_home,
+       home=home,
        match_score=match_score,
        match_reasons=match_reasons,
        match_summary=match_summary,
-       match_details=match_details,
-       limitations=limitations,
-       user_profile=user_profile,
+       user_profile=user_profile
    )
 
 @app.route("/toggle_favorite/<int:home_id>")
