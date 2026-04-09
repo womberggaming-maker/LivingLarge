@@ -448,9 +448,9 @@
 </p>
          {% if home.limitations %}
 <h3>Hvorfor matcher boligen ikke bedre?</h3>
-<ul> class="limitations-list">
+<ul class="limitations-list">
           {% for reason in home.limitations %}
-<li>⚠️ {{ reason }}</li>
+            <li>⚠️ {{ reason }}</li>
           {% endfor %}
 </ul>
          {% endif %}
